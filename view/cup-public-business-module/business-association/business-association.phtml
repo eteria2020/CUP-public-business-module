@@ -1,0 +1,45 @@
+<?php
+$form = $this->form->prepare();
+?>
+<div id="main" class="detect-window-height">
+    <div class="module-wrapper-app">
+        <div class="module-column-app side-sx">
+            <a class="btn-toogle-column-app js-toogle-column-app"><i class="fa fa-angle-left"></i></a>
+            <nav class="block-nav-app">
+                <?php echo $this->partial('partials/menu-user-area', ['route' => 'associate-business']); ?>
+            </nav>
+        </div>
+        <div class="module-column-app side-dx">
+            <div class="module-heading-app">
+                <h1 class="module-main-title"><?= $this->translate('PIN'); ?></h1>
+                <?php echo $this->partial('partials/welcome-user-area'); ?>
+            </div>
+            <div class="module-column-app-content clearfix">
+                <div class="module-sharing-resmume padding-top">
+                    <div class="block-form bw-f w-3-3  clearfix">
+                        <?php echo $this->partial('partials/flash-messages.phtml', []); ?>
+                        <div class="block-form-section content-align-center margin-bottom">
+                            <h2><i class="fa fa-business"></i> <?= $this->translate('Associazione con azienda'); ?></h2>
+                        </div>
+                        <?= $this->form()->openTag($form); ?>
+                        <div class="block-row-field clearfix">
+                            <div class="block-field bw-f w-4-4">
+                                <p> <label><?= $this->translate('Inserisci il codice aziendale che ti è stato comunicato'); ?></label>
+                                    <?php
+                                    $field = $form->get('code');
+                                    echo $this->formElement($field->setAttribute('class', 'required'));
+                                    echo $this->formElementErrors($field, ['class' => 'errors']);
+                                    ?>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="block-wrapper-button content-align-center">
+                            <input type=submit name="" value="<?= $this->translate('Associa'); ?>">
+                        </div>
+                        <?php echo $this->form()->closeTag(); ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
