@@ -54,7 +54,7 @@ class BusinessAssociationController extends AbstractActionController
                 $employeeId = $this->identity()->getId();
                 $this->businessService->associateEmployeeToBusinessByAssociationCode($employeeId, $postData['code']);
 
-                $this->flashMessenger()->addSuccessMessage($this->translator->translate('Operazione completata con successo!'));
+                $this->flashMessenger()->addSuccessMessage($this->translator->translate('Operazione avvenuta con successo! Appena verrai confermato riceverai una email con le istruzioni'));
                 return $this->redirect()->toRoute('area-utente');
             } catch (EntityNotFoundException $e) {
                 $this->flashMessenger()->addErrorMessage($this->translator->translate('Il codice inserito non è valido'));
