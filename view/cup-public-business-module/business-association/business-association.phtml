@@ -3,12 +3,7 @@ $form = $this->form->prepare();
 ?>
 <div id="main" class="detect-window-height">
     <div class="module-wrapper-app">
-        <div class="module-column-app side-sx">
-            <a class="btn-toogle-column-app js-toogle-column-app"><i class="fa fa-angle-left"></i></a>
-            <nav class="block-nav-app">
-                <?php echo $this->partial('partials/menu-user-area', ['route' => 'associate-business']); ?>
-            </nav>
-        </div>
+        <?php echo $this->navigation('navigation')->menu()->setPartial('partials/left-menu-user-area'); ?>
         <div class="module-column-app side-dx">
             <div class="module-heading-app">
                 <h1 class="module-main-title"><?= $this->translate('PIN'); ?></h1>

@@ -2,6 +2,7 @@
 
 namespace CUPPublicBusinessModule;
 
+$translator = new \Zend\I18n\Translator\Translator();
 return [
     'router' => [
         'router_class' => 'Zend\Mvc\Router\Http\TranslatorAwareTreeRouteStack',
@@ -57,4 +58,13 @@ return [
             ],
         ],
     ],
+    'navigation' => [
+        'default' => [
+            [
+                'label' => $translator->translate("Azienda"),
+                'route' => 'area-utente/associate',
+                'icon' => 'fa fa-briefcase',
+            ]
+        ]
+    ]
 ];
