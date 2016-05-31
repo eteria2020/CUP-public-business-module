@@ -47,7 +47,10 @@ return [
     'service_manager' => [
         'invokables' => [
             'CUPPublicBusinessModule\Form\AssociationCodeForm' => 'CUPPublicBusinessModule\Form\AssociationCodeForm'
-        ]
+        ],
+        'factories' => [
+            'CUPPublicBusinessModule\Listener\NewEmployeeAssociatedListener' => 'CUPPublicBusinessModule\Listener\NewEmployeeAssociatedListenerFactory'
+        ],
     ],
     'bjyauthorize' => [
         'guards' => [
