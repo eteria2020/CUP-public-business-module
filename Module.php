@@ -19,6 +19,7 @@ class Module
     /**
      * @param SharedEventManagerInterface $sharedEventManager
      * @param ServiceLocatorInterface $serviceManager
+     * @throws \Zend\ServiceManager\Exception\ServiceNotFoundException
      */
     private function registerEventListeners(
         SharedEventManagerInterface $sharedEventManager,

@@ -30,13 +30,26 @@ return [
                             ],
                         ],
                     ],
+                    //overwrite default route
+                    'pin' => [
+                        'type' => 'Segment',
+                        'options' => [
+                            'route' => '/{pin}',
+                            'defaults' => [
+                                '__NAMESPACE__' => 'CUPPublicBusinessModule\Controller',
+                                'controller' => 'BusinessUserArea',
+                                'action' => 'pin',
+                            ]
+                        ]
+                    ],
                 ],
             ],
         ],
     ],
     'controllers' => [
         'factories' => [
-            'CUPPublicBusinessModule\Controller\BusinessAssociation' => 'CUPPublicBusinessModule\Controller\BusinessAssociationControllerFactory'
+            'CUPPublicBusinessModule\Controller\BusinessAssociation' => 'CUPPublicBusinessModule\Controller\BusinessAssociationControllerFactory',
+            'CUPPublicBusinessModule\Controller\BusinessUserArea' => 'CUPPublicBusinessModule\Controller\BusinessUserAreaControllerFactory'
         ]
     ],
     'view_manager' => [
@@ -49,15 +62,15 @@ return [
             'CUPPublicBusinessModule\Form\AssociationCodeForm' => 'CUPPublicBusinessModule\Form\AssociationCodeForm'
         ],
         'factories' => [
-            'CUPPublicBusinessModule\Listener\NewEmployeeAssociatedListener' => 'CUPPublicBusinessModule\Listener\NewEmployeeAssociatedListenerFactory'
+            'CUPPublicBusinessModule\Listener\NewEmployeeAssociatedListener' => 'CUPPublicBusinessModule\Listener\NewEmployeeAssociatedListenerFactory',
+            'CUPPublicBusinessModule\Service\EmployeeService' => 'CUPPublicBusinessModule\Service\EmployeeServiceFactory'
         ],
     ],
     'bjyauthorize' => [
         'guards' => [
             'BjyAuthorize\Guard\Controller' => [
-                [
-                    'controller' =>  'CUPPublicBusinessModule\Controller\BusinessAssociation', 'roles' => []
-                ],
+                ['controller' =>  'CUPPublicBusinessModule\Controller\BusinessAssociation', 'roles' => []],
+                ['controller' =>  'CUPPublicBusinessModule\Controller\BusinessUserArea', 'roles' => ['user']],
             ],
         ],
     ],
