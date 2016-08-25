@@ -42,6 +42,17 @@ return [
                             ]
                         ]
                     ],
+                    'rents' => [
+                        'type' => 'Segment',
+                        'options' => [
+                            'route' => '/{corse}',
+                            'defaults' => [
+                                '__NAMESPACE__' => 'CUPPublicBusinessModule\Controller',
+                                'controller' => 'BusinessUserArea',
+                                'action' => 'rents',
+                            ]
+                        ]
+                    ],
                 ],
             ],
         ],
@@ -82,5 +93,12 @@ return [
                 'icon' => 'fa fa-briefcase',
             ]
         ]
-    ]
+    ],
+    'asset_manager' => [
+        'resolver_configs' => [
+            'paths' => [
+                __DIR__ . '/../public/',
+            ],
+        ],
+    ],
 ];

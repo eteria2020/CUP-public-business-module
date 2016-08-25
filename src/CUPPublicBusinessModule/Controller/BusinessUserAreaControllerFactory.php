@@ -9,8 +9,16 @@ class BusinessUserAreaControllerFactory implements FactoryInterface
 {
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $translator = $serviceLocator->getServiceLocator()->get('Translator');
-        $employeeService = $serviceLocator->getServiceLocator()->get('CUPPublicBusinessModule\Service\EmployeeService');
-        return new BusinessUserAreaController($translator, $employeeService);
+        $sharedLocator = $serviceLocator->getServiceLocator();
+        $translator = $sharedLocator->get('Translator');
+        $employeeService = $sharedLocator->get('CUPPublicBusinessModule\Service\EmployeeService');
+        $tripService = $sharedLocator->get('SharengoCore\Service\TripsService');
+        $userService = $sharedLocator->get('zfcuser_auth_service');
+        return new BusinessUserAreaController(
+            $translator,
+            $employeeService,
+            $tripService,
+            $userService
+        );
     }
 }

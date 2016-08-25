@@ -1,0 +1,128 @@
+<?php
+    $availableDates = $this->availableDates;
+    $lastValue = '';
+?>
+
+<!-- main -->
+<div id="main" class="detect-window-height">
+
+    <!-- module-wrapper-app -->
+    <div class="module-wrapper-app">
+
+        <!-- module-column-app sx -->
+        <?php echo $this->navigation('navigation')->menu()->setPartial('partials/left-menu-user-area'); ?>
+
+        <!-- module-column-app sx -->
+
+        <!-- module-column-app dx -->
+        <div class="module-column-app side-dx">
+
+            <div class="module-heading-app">
+                <h1 class="module-main-title"><?= $this->translate('Le mie corse'); ?></h1>
+                <?php echo $this->partial('partials/welcome-user-area'); ?>
+            </div>
+
+            <div class="module-column-app-content clearfix">
+
+                <!-- module-sharing-resmume -->
+                <div class="module-sharing-resmume padding-top">
+
+                    <?php
+                        // check if there are any invoices
+                        if (!empty($availableDates)) {
+                    ?>
+
+                    <!-- Map popup -->
+                    <div id="map-popup" class="map-popup"></div>
+                    <!-- map popup -->
+
+                    <!-- Filter -->
+                    <div class="invoices-filter">
+
+                        <!-- Header -->
+                        <p class="invoices-filter-title">Periodo</p>
+
+                        <!-- Select box -->
+                        <select id="rents-filter-select" class="invoices-filter-select">
+
+                            <?php
+                                $isLastValue = true;
+                                foreach ($availableDates as $date) {
+                                    echo '<option value="' . $date->format('Y-m') . '-01 0:00:00">' .
+                                        $date->format('m-Y') .
+                                    '</option>';
+                                    if ($isLastValue) {
+                                        $lastValue = $date->format('Y-m') . '-01 0:00:00';
+                                        $isLastValue = false;
+                                    }
+                                }
+                            ?>
+
+                        </select>
+                        <!-- select box -->
+
+                    </div>
+                    <!-- filter -->
+
+                    <div class="rents-message">
+                        <p>Con un semplice mouse-over per ogni singola corsa puoi vedere le coordinate della partenza e dell'arrivo, il consumo di minuti bonus e le gratuità che ti sono state riconosciute (es. per corse notturne, se sei una nostra cliente). In fondo alla tabella trovi il totale degli addebiti del mese applicando la tua tariffa personale (non vengono contabilizzate e addebitate da SHARE’NGO le corse inferiori ai 5 minuti). </p>
+                    </div>
+
+                    <!-- Invoices table -->
+                    <div id="rents-table-body" class="block-data-table clearboth clearfix margin-top-custom">
+
+                        <!-- Invoices table headers -->
+                        <div class="block-data-table-row clearfix">
+                            <div class="block-data-table-th cw-1-7">Tipologia</div>
+                            <div class="block-data-table-th cw-1-7">Inizio</div>
+                            <div class="block-data-table-th cw-1-7">Fine</div>
+                            <div class="block-data-table-th cw-1-7">Durata (min.)</div>
+                            <div class="block-data-table-th cw-1-7">Sosta (min.)</div>
+                            <div class="block-data-table-th cw-1-7">Totale</div>
+                            <div class="block-data-table-th cw-1-7">Da saldare</div>
+                        </div>
+                        <!-- invoices table headers -->
+
+                        <!-- Invoice table body goes here -->
+
+                    </div>
+                    <!-- invoices table -->
+
+                    <div style="margin-top: 10px">
+                        <p style="color: red"><strong>Attenzione</strong>: l'addebito delle corse avviene di regola il giorno dopo. Se ci sono corse da saldare non effettuate nella giornata di oggi vuol dire che ci sono stati problemi di addebito sulla tua carta di credito e che il tuo account è temporaneamente sospeso. Contatta il Customer Service di SHARE'NGO per la riattivazione.</p>
+                    </div>
+
+                    <?php
+                        // if there are no trips
+                        } else {
+                    ?>
+
+                    <h2>Nessuna corsa effettuata finora</h2>
+
+                    <?php
+                        // close no invoices if
+                        }
+                    ?>
+
+                </div>
+                <!-- module-sharing-resmume -->
+
+            </div>
+            <!-- module-column-app-content -->
+
+        </div>
+        <!-- module-column-app dx -->
+
+    </div>
+    <!-- module-wrapper-app -->
+
+</div>
+<!-- main -->
+
+<!-- JavaScript -->
+<script type="text/javascript">
+var rentsUrl = "<?= $this->url('core/trips'); ?>";
+var lastPeriod = "<?= (count($availableDates) > 0 ? $lastValue : ''); ?>";
+</script>
+<script type="text/javascript" src="<?= $this->basePath(); ?>/js/accounting.min.js"></script>
+<script type="text/javascript" src="<?= $this->basePath(); ?>/js/business-rents.js"></script>
