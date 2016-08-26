@@ -4,6 +4,24 @@ namespace CUPPublicBusinessModule;
 
 $translator = new \Zend\I18n\Translator\Translator();
 return [
+    'console' => [
+        'router' => [
+            'routes' => [
+                'make-business-pay-trips' => [
+                    'type' => 'simple',
+                    'options' => [
+                        'route' => 'make business pay trips <businessCode>',
+                        'defaults' => [
+                            '__NAMESPACE__' => 'CUPPublicBusinessModule\Controller',
+                            'controller' => 'ConsolePayments',
+                            'action' => 'make-business-pay-trips'
+                        ]
+                    ]
+                ],
+
+            ]
+        ],
+    ],
     'router' => [
         'router_class' => 'Zend\Mvc\Router\Http\TranslatorAwareTreeRouteStack',
         'routes' => [
@@ -30,7 +48,7 @@ return [
                             ],
                         ],
                     ],
-                    //overwrite default route
+                    //overwrite default routes
                     'pin' => [
                         'type' => 'Segment',
                         'options' => [
@@ -60,7 +78,8 @@ return [
     'controllers' => [
         'factories' => [
             'CUPPublicBusinessModule\Controller\BusinessAssociation' => 'CUPPublicBusinessModule\Controller\BusinessAssociationControllerFactory',
-            'CUPPublicBusinessModule\Controller\BusinessUserArea' => 'CUPPublicBusinessModule\Controller\BusinessUserAreaControllerFactory'
+            'CUPPublicBusinessModule\Controller\BusinessUserArea' => 'CUPPublicBusinessModule\Controller\BusinessUserAreaControllerFactory',
+            'CUPPublicBusinessModule\Controller\ConsolePayments' => 'CUPPublicBusinessModule\Controller\ConsolePaymentsControllerFactory'
         ]
     ],
     'view_manager' => [
@@ -81,6 +100,7 @@ return [
         'guards' => [
             'BjyAuthorize\Guard\Controller' => [
                 ['controller' =>  'CUPPublicBusinessModule\Controller\BusinessAssociation', 'roles' => []],
+                ['controller' =>  'CUPPublicBusinessModule\Controller\ConsolePayments', 'roles' => []],
                 ['controller' =>  'CUPPublicBusinessModule\Controller\BusinessUserArea', 'roles' => ['user']],
             ],
         ],
