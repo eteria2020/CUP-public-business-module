@@ -7,18 +7,28 @@ return [
     'console' => [
         'router' => [
             'routes' => [
-                'make-business-pay-trips' => [
+                'make-business-pay' => [
                     'type' => 'simple',
                     'options' => [
-                        'route' => 'make business pay trips <businessCode>',
+                        'route' => 'make business pay <businessCode>',
                         'defaults' => [
                             '__NAMESPACE__' => 'CUPPublicBusinessModule\Controller',
                             'controller' => 'ConsolePayments',
-                            'action' => 'make-business-pay-trips'
+                            'action' => 'make-business-pay'
                         ]
                     ]
                 ],
-
+                'generate-business-invoices' => [
+                    'type' => 'simple',
+                    'options' => [
+                        'route' => 'generate business invoices <businessCode>',
+                        'defaults' => [
+                            '__NAMESPACE__' => 'CUPPublicBusinessModule\Controller',
+                            'controller' => 'ConsolePayments',
+                            'action' => 'generate-business-invoices'
+                        ]
+                    ]
+                ]
             ]
         ],
     ],
