@@ -65,7 +65,12 @@ class ConsolePaymentsController extends AbstractActionController
         }
         $this->logger->log("\nStarted generating invoices\ntime = " . date_create()->format('Y-m-d H:i:s') . "\n\n");
 
-        // get all trip_payments without invoice
+        $subscriptionPayments = $this->businessPaymentService->getSubscriptionPaymentToBeInvoiced($business);
+        if (count($subscriptionPayments) > 0) {
+            $this->logger->log('Generating invoices for ' . count($subscriptionPayments) . " subscriptions payment\n");
+            $this->businessInvoiceService->createInvoiceForSubscription($business, $subscriptionPayments);
+        }
+
         $tripPayments = $this->businessPaymentService->getTripPaymentsToBeInvoiced($business);
         if (count($tripPayments) > 0) {
             $this->logger->log('Generating invoices for ' . count($tripPayments) . " trips payment\n");
