@@ -49,9 +49,14 @@ class NewEmployeeAssociatedListener implements SharedListenerAggregateInterface
         $params = $e->getParams();
         $employee = $params['employee'];
 
+        /** @var Customers $customer */
         $customer = $this->customersService->findById($employee->getId());
 
+        $primaryPin = $customer->getPrimaryPin();
         $companyPin = mt_rand(1000, 9999);
+        while ($companyPin === $primaryPin) {
+            $companyPin = mt_rand(1000, 9999);
+        }
         $this->customersService->setPinToCustomer($customer, "company", $companyPin);
     }
 }
