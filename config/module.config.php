@@ -13,7 +13,7 @@ return [
                         'route' => 'make business pay <businessCode>',
                         'defaults' => [
                             '__NAMESPACE__' => 'CUPPublicBusinessModule\Controller',
-                            'controller' => 'ConsolePayments',
+                            'controller' => 'Console',
                             'action' => 'make-business-pay'
                         ]
                     ]
@@ -24,7 +24,7 @@ return [
                         'route' => 'generate business invoices <businessCode>',
                         'defaults' => [
                             '__NAMESPACE__' => 'CUPPublicBusinessModule\Controller',
-                            'controller' => 'ConsolePayments',
+                            'controller' => 'Console',
                             'action' => 'generate-business-invoices'
                         ]
                     ]
@@ -89,7 +89,7 @@ return [
         'factories' => [
             'CUPPublicBusinessModule\Controller\BusinessAssociation' => 'CUPPublicBusinessModule\Controller\BusinessAssociationControllerFactory',
             'CUPPublicBusinessModule\Controller\BusinessUserArea' => 'CUPPublicBusinessModule\Controller\BusinessUserAreaControllerFactory',
-            'CUPPublicBusinessModule\Controller\ConsolePayments' => 'CUPPublicBusinessModule\Controller\ConsolePaymentsControllerFactory'
+            'CUPPublicBusinessModule\Controller\Console' => 'CUPPublicBusinessModule\Controller\ConsoleControllerFactory'
         ]
     ],
     'view_manager' => [
@@ -110,7 +110,7 @@ return [
         'guards' => [
             'BjyAuthorize\Guard\Controller' => [
                 ['controller' =>  'CUPPublicBusinessModule\Controller\BusinessAssociation', 'roles' => []],
-                ['controller' =>  'CUPPublicBusinessModule\Controller\ConsolePayments', 'roles' => []],
+                ['controller' =>  'CUPPublicBusinessModule\Controller\Console', 'roles' => []],
                 ['controller' =>  'CUPPublicBusinessModule\Controller\BusinessUserArea', 'roles' => ['user']],
             ],
         ],

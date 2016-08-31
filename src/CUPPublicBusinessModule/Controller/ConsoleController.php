@@ -10,7 +10,7 @@ use BusinessCore\Service\BusinessTripService;
 use SharengoCore\Service\SimpleLoggerService as Logger;
 use Zend\Mvc\Controller\AbstractActionController;
 
-class ConsolePaymentsController extends AbstractActionController
+class ConsoleController extends AbstractActionController
 {
     /**
      * @var Logger
@@ -34,7 +34,7 @@ class ConsolePaymentsController extends AbstractActionController
     private $businessPaymentService;
 
     /**
-     * ConsolePaymentsController constructor.
+     * ConsoleController constructor.
      * @param Logger $logger
      * @param BusinessService $businessService
      * @param BusinessTripService $businessTripService

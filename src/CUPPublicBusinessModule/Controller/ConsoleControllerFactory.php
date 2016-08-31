@@ -5,7 +5,7 @@ namespace CUPPublicBusinessModule\Controller;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class ConsolePaymentsControllerFactory implements FactoryInterface
+class ConsoleControllerFactory implements FactoryInterface
 {
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
@@ -18,7 +18,7 @@ class ConsolePaymentsControllerFactory implements FactoryInterface
         $businessPaymentService = $sharedLocator->get('BusinessCore\Service\BusinessPaymentService');
 
 
-        return new ConsolePaymentsController(
+        return new ConsoleController(
             $logger,
             $businessService,
             $businessTripService,
