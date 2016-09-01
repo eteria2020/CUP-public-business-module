@@ -221,7 +221,13 @@ class ConsoleAccountComputeController extends AbstractActionController
             if ($trip->getPinType() === Trip::PIN_COMPANY) {
                 $this->logger->log("Processing business trip " . $trip->getId() . "\n");
                 $businessTrip = $this->businessTripService->getBusinessTripByTripId($trip->getId());
-                $this->businessTripCostService->computeBusinessTripCost($trip, $businessTrip, $this->avoidPersistance);
+                if ($businessTrip instanceof BusinessTrip) {
+                    $this->logger->log("Accounting business trip " . $trip->getId() . "\n");
+                    $this->businessTripCostService->computeBusinessTripCost($trip, $businessTrip, $this->avoidPersistance);
+                } else {
+                    $this->logger->log("Business trip " . $trip->getId() . " skipped\n");
+                }
+
             } else {
                 $this->logger->log("Processing private trip " . $trip->getId() . "\n");
                 $this->tripCostService->computeTripCost($trip, $this->avoidPersistance);
