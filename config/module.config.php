@@ -28,7 +28,63 @@ return [
                             'action' => 'generate-business-invoices'
                         ]
                     ]
-                ]
+                ],
+                //overwrite routes
+                'account-compute' => [
+                    'type' => 'simple',
+                    'options' => [
+                        'route' => 'account compute [--dry-run|-d]',
+                        'defaults' => [
+                            '__NAMESPACE__' => 'CUPPublicBusinessModule\Controller',
+                            'controller' => 'ConsoleAccountCompute',
+                            'action' => 'account-compute'
+                        ]
+                    ]
+                ],
+                'account-trips' => [
+                    'type' => 'simple',
+                    'options' => [
+                        'route' => 'account trips [--dry-run|-d]',
+                        'defaults' => [
+                            '__NAMESPACE__' => 'CUPPublicBusinessModule\Controller',
+                            'controller' => 'ConsoleAccountCompute',
+                            'action' => 'account-trips'
+                        ]
+                    ]
+                ],
+                'account-trip' => [
+                    'type' => 'simple',
+                    'options' => [
+                        'route' => 'account trip <tripId> [--dry-run|-d]',
+                        'defaults' => [
+                            '__NAMESPACE__' => 'CUPPublicBusinessModule\Controller',
+                            'controller' => 'ConsoleAccountCompute',
+                            'action' => 'account-trip'
+                        ]
+                    ]
+                ],
+                'compute-trips-cost' => [
+                    'type' => 'simple',
+                    'options' => [
+                        'route' => 'compute trips cost [--dry-run|-d]',
+                        'defaults' => [
+                            '__NAMESPACE__' => 'CUPPublicBusinessModule\Controller',
+                            'controller' => 'ConsoleAccountCompute',
+                            'action' => 'compute-trips-cost'
+                        ]
+                    ]
+                ],
+                'compute-trip-cost' => [
+                    'type' => 'simple',
+                    'options' => [
+                        'route' => 'compute trip cost <tripId> [--dry-run|-d]',
+                        'defaults' => [
+                            '__NAMESPACE__' => 'CUPPublicBusinessModule\Controller',
+                            'controller' => 'ConsoleAccountCompute',
+                            'action' => 'compute-trip-cost'
+                        ]
+                    ]
+                ],
             ]
         ],
     ],
@@ -89,7 +145,8 @@ return [
         'factories' => [
             'CUPPublicBusinessModule\Controller\BusinessAssociation' => 'CUPPublicBusinessModule\Controller\BusinessAssociationControllerFactory',
             'CUPPublicBusinessModule\Controller\BusinessUserArea' => 'CUPPublicBusinessModule\Controller\BusinessUserAreaControllerFactory',
-            'CUPPublicBusinessModule\Controller\Console' => 'CUPPublicBusinessModule\Controller\ConsoleControllerFactory'
+            'CUPPublicBusinessModule\Controller\Console' => 'CUPPublicBusinessModule\Controller\ConsoleControllerFactory',
+            'CUPPublicBusinessModule\Controller\ConsoleAccountCompute' => 'CUPPublicBusinessModule\Controller\ConsoleAccountComputeControllerFactory'
         ]
     ],
     'view_manager' => [
@@ -103,7 +160,9 @@ return [
         ],
         'factories' => [
             'CUPPublicBusinessModule\Listener\NewEmployeeAssociatedListener' => 'CUPPublicBusinessModule\Listener\NewEmployeeAssociatedListenerFactory',
-            'CUPPublicBusinessModule\Service\EmployeeService' => 'CUPPublicBusinessModule\Service\EmployeeServiceFactory'
+            'CUPPublicBusinessModule\Service\EmployeeService' => 'CUPPublicBusinessModule\Service\EmployeeServiceFactory',
+            'CUPPublicBusinessModule\Service\BusinessTripCostService' => 'CUPPublicBusinessModule\Service\BusinessTripCostServiceFactory',
+            'CUPPublicBusinessModule\Service\AccountBusinessTripsService' => 'CUPPublicBusinessModule\Service\AccountBusinessTripsServiceFactory'
         ],
     ],
     'bjyauthorize' => [
@@ -111,6 +170,7 @@ return [
             'BjyAuthorize\Guard\Controller' => [
                 ['controller' =>  'CUPPublicBusinessModule\Controller\BusinessAssociation', 'roles' => []],
                 ['controller' =>  'CUPPublicBusinessModule\Controller\Console', 'roles' => []],
+                ['controller' =>  'CUPPublicBusinessModule\Controller\ConsoleAccountCompute', 'roles' => []],
                 ['controller' =>  'CUPPublicBusinessModule\Controller\BusinessUserArea', 'roles' => ['user']],
             ],
         ],
