@@ -7,6 +7,17 @@ return [
     'console' => [
         'router' => [
             'routes' => [
+                'business-pay-invoice' => [
+                    'type' => 'simple',
+                    'options' => [
+                        'route' => 'business pay invoice',
+                        'defaults' => [
+                            '__NAMESPACE__' => 'CUPPublicBusinessModule\Controller',
+                            'controller' => 'Console',
+                            'action' => 'business-pay-invoice'
+                        ]
+                    ]
+                ],
                 'make-business-pay' => [
                     'type' => 'simple',
                     'options' => [
