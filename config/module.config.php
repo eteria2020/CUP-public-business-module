@@ -7,6 +7,17 @@ return [
     'console' => [
         'router' => [
             'routes' => [
+                'check-groups-limits' => [
+                    'type' => 'simple',
+                    'options' => [
+                        'route' => 'business check groups limits',
+                        'defaults' => [
+                            '__NAMESPACE__' => 'CUPPublicBusinessModule\Controller',
+                            'controller' => 'ConsoleGroups',
+                            'action' => 'check-groups-limits'
+                        ]
+                    ]
+                ],
                 'business-pay-invoice' => [
                     'type' => 'simple',
                     'options' => [
@@ -157,7 +168,8 @@ return [
             'CUPPublicBusinessModule\Controller\BusinessAssociation' => 'CUPPublicBusinessModule\Controller\BusinessAssociationControllerFactory',
             'CUPPublicBusinessModule\Controller\BusinessUserArea' => 'CUPPublicBusinessModule\Controller\BusinessUserAreaControllerFactory',
             'CUPPublicBusinessModule\Controller\Console' => 'CUPPublicBusinessModule\Controller\ConsoleControllerFactory',
-            'CUPPublicBusinessModule\Controller\ConsoleAccountCompute' => 'CUPPublicBusinessModule\Controller\ConsoleAccountComputeControllerFactory'
+            'CUPPublicBusinessModule\Controller\ConsoleAccountCompute' => 'CUPPublicBusinessModule\Controller\ConsoleAccountComputeControllerFactory',
+            'CUPPublicBusinessModule\Controller\ConsoleGroups' => 'CUPPublicBusinessModule\Controller\ConsoleGroupsControllerFactory'
         ]
     ],
     'view_manager' => [
@@ -181,6 +193,7 @@ return [
             'BjyAuthorize\Guard\Controller' => [
                 ['controller' =>  'CUPPublicBusinessModule\Controller\BusinessAssociation', 'roles' => []],
                 ['controller' =>  'CUPPublicBusinessModule\Controller\Console', 'roles' => []],
+                ['controller' =>  'CUPPublicBusinessModule\Controller\ConsoleGroups', 'roles' => []],
                 ['controller' =>  'CUPPublicBusinessModule\Controller\ConsoleAccountCompute', 'roles' => []],
                 ['controller' =>  'CUPPublicBusinessModule\Controller\BusinessUserArea', 'roles' => ['user']],
             ],

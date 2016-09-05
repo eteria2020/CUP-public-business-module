@@ -49,7 +49,7 @@ function refreshTable(period)
             var pinType = 'Privata';
 
             var pinTypeValue = trip['pinType'];
-            if (pinTypeValue === 'business') {
+            if (pinTypeValue === 'company') {
                 pinType = 'Aziendale';
             }
 
