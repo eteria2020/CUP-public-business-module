@@ -67,16 +67,16 @@ class ConsoleController extends AbstractActionController
                 $count++;
             }
         }
-        $this->logger->log("payment processd for " . $count . " businesses\n");
+        $this->logger->log("payment processed for " . $count . " businesses\n");
         $count = 0;
         $businesses = $this->businessService->getAllBusinesses();
         foreach ($businesses as $business) {
             if ($this->itsTimeForBusinessToBeInvoiced($business)) {
-                //$this->generateBusinessInvoices($business);
+                $this->generateBusinessInvoices($business);
                 $count++;
             }
         }
-        $this->logger->log("invoice processd for " . $count . " businesses\n");
+        $this->logger->log("invoice processed for " . $count . " businesses\n");
     }
 
     public function generateBusinessInvoicesAction()

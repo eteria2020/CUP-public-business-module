@@ -2,6 +2,7 @@
 
 namespace CUPPublicBusinessModule\Listener;
 
+use BusinessCore\Entity\Trip;
 use SharengoCore\Entity\Customers;
 use SharengoCore\Service\CustomersService;
 use Zend\EventManager\SharedListenerAggregateInterface;
@@ -57,6 +58,6 @@ class NewEmployeeAssociatedListener implements SharedListenerAggregateInterface
         while ($companyPin === $primaryPin) {
             $companyPin = mt_rand(1000, 9999);
         }
-        $this->customersService->setPinToCustomer($customer, "company", $companyPin);
+        $this->customersService->setPinToCustomer($customer, Trip::PIN_COMPANY, $companyPin);
     }
 }
