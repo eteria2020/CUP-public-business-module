@@ -13,7 +13,7 @@ class ConsoleGroupsControllerFactory implements FactoryInterface
         $logger = $sharedLocator->get('SharengoCore\Service\SimpleLoggerService');
         $businessService = $sharedLocator->get('BusinessCore\Service\BusinessService');
         $businessTripService = $sharedLocator->get('BusinessCore\Service\BusinessTripService');
-        $customerService = $sharedLocator()->get('SharengoCore\Service\CustomersService');
+        $customerService = $sharedLocator->get('SharengoCore\Service\CustomersService');
 
         return new ConsoleGroupsController(
             $logger,
