@@ -1,0 +1,45 @@
+<?php
+?>
+<div id="main" class="detect-window-height">
+    <div class="module-wrapper-app">
+        <?php echo $this->navigation('navigation')->menu()->setPartial('partials/left-menu-user-area'); ?>
+        <div class="module-column-app side-dx">
+            <div class="module-heading-app">
+                <h1 class="module-main-title"><?= $this->translate('PIN'); ?></h1>
+                <?php echo $this->partial('partials/welcome-user-area'); ?>
+            </div>
+            <div class="module-column-app-content clearfix">
+                <div class="module-sharing-resmume padding-top">
+                    <div class="block-form bw-f w-3-3  clearfix">
+                        <?php echo $this->partial('partials/flash-messages.phtml', []); ?>
+                        <div class="block-form-section content-align-center margin-bottom">
+                            <h2><i class="fa fa-business"></i> <?= $this->translate('Associazione con azienda'); ?></h2>
+                        </div>
+                        <?php $business = $this->businessEmployee->getBusiness(); ?>
+                        <?= $this->translate("Sei associato alla seguente azienda:"); ?>
+                        <ul style="list-style: none">
+                            <li>
+                                <?= $this->translate('Stato associazione: ') . $this->businessEmployeeStatus($this->businessEmployee->getStatus()); ?>
+                            </li>
+                            <li>
+                                <?= $this->translate('Nome: ') . $business->getName(); ?>
+                            </li>
+                            <li>
+                                <?= $this->translate('Email: ') . $business->getEmail(); ?>
+                            </li>
+                            <li>
+                                <?= $this->translate('Telefono: ') . $business->getPhone(); ?>
+                            </li>
+                            <li>
+                                <?= $this->translate('Data richiesta: ') . $this->businessEmployee->getReadableInsertDate(); ?>
+                            </li>
+                            <li>
+                                <?= $this->translate('Data conferma: ') . $this->businessEmployee->getReadableConfirmedDate(); ?>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

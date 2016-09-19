@@ -2,14 +2,15 @@
 
 namespace CUPPublicBusinessModule\Controller;
 
+use BusinessCore\Entity\Employee;
 use BusinessCore\Exception\EmployeeAlreadyAssociatedToDifferentBusinessException;
 use BusinessCore\Exception\EmployeeAlreadyAssociatedToThisBusinessException;
 use BusinessCore\Exception\EmployeeDeletedException;
 use BusinessCore\Service\BusinessService;
 
 use CUPPublicBusinessModule\Form\AssociationCodeForm;
+use CUPPublicBusinessModule\Service\EmployeeService;
 use Doctrine\ORM\EntityNotFoundException;
-use Zend\Http\Response;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Mvc\I18n\Translator;
 use Zend\View\Model\ViewModel;
@@ -28,30 +29,51 @@ class BusinessAssociationController extends AbstractActionController
      * @var Translator
      */
     private $translator;
+    /**
+     * @var EmployeeService
+     */
+    private $employeeService;
 
     /**
      * BusinessAssociationController constructor.
      * @param BusinessService $businessService
+     * @param EmployeeService $employeeService
      * @param AssociationCodeForm $associationCodeForm
      * @param Translator $translator
      */
     public function __construct(
         BusinessService $businessService,
+        EmployeeService $employeeService,
         AssociationCodeForm $associationCodeForm,
         Translator $translator
     ) {
         $this->businessService = $businessService;
         $this->associationCodeForm = $associationCodeForm;
         $this->translator = $translator;
+        $this->employeeService = $employeeService;
     }
 
     public function businessAssociationAction()
     {
+        $employeeId = $this->identity()->getId();
+        $employee = $this->employeeService->getEmployeeFromId($employeeId);
+
+        //if there is an active association
+        if ($employee instanceof Employee && $employee->hasActiveBusinessAssociation()) {
+            $viewModel = new ViewModel(
+                [
+                    'businessEmployee' => $employee->getActiveBusinessEmployee()
+                ]
+            );
+            $viewModel->setTemplate('cup-public-business-module/business-association/business-already-associated');
+            return $viewModel;
+        }
+
         if ($this->getRequest()->isPost()) {
             $postData = $this->getRequest()->getPost();
 
             try {
-                $employeeId = $this->identity()->getId();
+
                 $this->businessService->associateEmployeeToBusinessByAssociationCode($employeeId, $postData['code']);
 
                 $this->flashMessenger()->addSuccessMessage($this->translator->translate('Operazione avvenuta con successo! Appena verrai confermato riceverai una email con le istruzioni'));
@@ -68,6 +90,7 @@ class BusinessAssociationController extends AbstractActionController
 
             return $this->redirect()->toRoute('area-utente/associate');
         }
+
 
         return new ViewModel(
             [

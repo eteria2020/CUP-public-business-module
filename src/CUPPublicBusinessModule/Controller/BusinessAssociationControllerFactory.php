@@ -11,7 +11,8 @@ class BusinessAssociationControllerFactory implements FactoryInterface
     {
         $businessService = $serviceLocator->getServiceLocator()->get('BusinessCore\Service\BusinessService');
         $associationCodeForm = $serviceLocator->getServiceLocator()->get('CUPPublicBusinessModule\Form\AssociationCodeForm');
+        $employeeService = $serviceLocator->getServiceLocator()->get('CUPPublicBusinessModule\Service\EmployeeService');
         $translator = $serviceLocator->getServiceLocator()->get('Translator');
-        return new BusinessAssociationController($businessService, $associationCodeForm, $translator);
+        return new BusinessAssociationController($businessService, $employeeService, $associationCodeForm, $translator);
     }
 }

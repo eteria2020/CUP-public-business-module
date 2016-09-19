@@ -57,12 +57,12 @@
                     <?php if (!empty($this->businesses)) { ?>
                         <div style="float: left;">
                             <div class="pin-title">
-                                <?= $this->translate('Se hai dimenticato il tuo PIN AZIENDALE dovrai richiederderlo alla tua azienda:'); ?>
+                                <?= $this->translate('Se hai dimenticato il tuo PIN AZIENDALE dovrai richiederlo alla tua azienda:'); ?>
                             </div>
 
                             <?php /** @var Business $business */
                             foreach ($this->businesses as $business) { ?>
-                                <ul>
+                                <ul style="list-style: none">
                                     <li>
                                         <?= $this->translate('Nome: ') . $business->getName(); ?>
                                     </li>
