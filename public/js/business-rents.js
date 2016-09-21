@@ -51,6 +51,8 @@ function refreshTable(period)
             var pinTypeValue = trip['pinType'];
             if (pinTypeValue === 'company') {
                 pinType = 'Aziendale';
+                totalAmount = '-';
+                mustPay = '-';
             }
 
             // show FREE for not accountable trips
