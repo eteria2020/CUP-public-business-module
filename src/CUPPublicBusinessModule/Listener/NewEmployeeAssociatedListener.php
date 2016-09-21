@@ -59,5 +59,6 @@ class NewEmployeeAssociatedListener implements SharedListenerAggregateInterface
             $companyPin = mt_rand(1000, 9999);
         }
         $this->customersService->setPinToCustomer($customer, Trip::PIN_COMPANY, $companyPin);
+        $this->customersService->setPinToCustomer($customer, 'companyPinDisabled', false);
     }
 }
