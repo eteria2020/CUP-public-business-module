@@ -9,7 +9,10 @@
     "autoload": {
         "classmap": [
             "./Module.php"
-        ]
+        ],
+        "psr-4": {
+            "CUPPublicBusinessModule\\": "src/"
+        }
     }
 }
 
