@@ -16,14 +16,15 @@ class ConsoleControllerFactory implements FactoryInterface
         $businessInvoiceService = $sharedLocator->get('BusinessCore\Service\BusinessInvoiceService');
 
         $businessPaymentService = $sharedLocator->get('BusinessCore\Service\BusinessPaymentService');
-
+        $paymentScriptRunService = $sharedLocator->get('SharengoCore\Service\PaymentScriptRunsService');
 
         return new ConsoleController(
             $logger,
             $businessService,
             $businessTripService,
             $businessInvoiceService,
-            $businessPaymentService
+            $businessPaymentService,
+            $paymentScriptRunService
         );
     }
 }
