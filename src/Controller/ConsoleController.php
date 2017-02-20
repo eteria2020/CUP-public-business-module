@@ -8,6 +8,7 @@ use BusinessCore\Service\BusinessPaymentService;
 use BusinessCore\Service\BusinessService;
 use BusinessCore\Service\BusinessTripService;
 use DateInterval;
+use SharengoCore\Service\PaymentScriptRunsService;
 use SharengoCore\Service\SimpleLoggerService as Logger;
 use Zend\Mvc\Controller\AbstractActionController;
 
@@ -33,6 +34,10 @@ class ConsoleController extends AbstractActionController
      * @var BusinessPaymentService
      */
     private $businessPaymentService;
+    /**
+     * @var PaymentScriptRunsService
+     */
+    private $paymentScriptRunsService;
 
     /**
      * ConsoleController constructor.
@@ -41,24 +46,31 @@ class ConsoleController extends AbstractActionController
      * @param BusinessTripService $businessTripService
      * @param BusinessInvoiceService $businessInvoiceService
      * @param BusinessPaymentService $businessPaymentService
+     * @param PaymentScriptRunsService $paymentScriptRunsService
      */
     public function __construct(
         Logger $logger,
         BusinessService $businessService,
         BusinessTripService $businessTripService,
         BusinessInvoiceService $businessInvoiceService,
-        BusinessPaymentService $businessPaymentService
+        BusinessPaymentService $businessPaymentService,
+        PaymentScriptRunsService $paymentScriptRunsService
+
     ) {
         $this->logger = $logger;
         $this->businessService = $businessService;
         $this->businessTripService = $businessTripService;
         $this->businessInvoiceService = $businessInvoiceService;
         $this->businessPaymentService = $businessPaymentService;
+        $this->paymentScriptRunsService = $paymentScriptRunsService;
     }
 
     public function businessPayInvoiceAction()
     {
         $this->initLogger();
+
+        $scriptId = $this->paymentScriptRunsService->scriptStarted();
+
         $businesses = $this->businessService->getAllBusinessesWithCreditCard();
         $count = 0;
         foreach ($businesses as $business) {
@@ -67,6 +79,9 @@ class ConsoleController extends AbstractActionController
                 $count++;
             }
         }
+
+        $this->paymentScriptRunsService->scriptEnded($scriptId);
+
         $this->logger->log("payment processed for " . $count . " businesses\n");
         $count = 0;
         $businesses = $this->businessService->getAllBusinesses();
