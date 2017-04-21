@@ -161,6 +161,7 @@ class ExportRegistriesController extends AbstractActionController
      * Available params are:
      *     -d (does not generate files)
      *     -c (does not export customers data)
+     *     -b (does not export businesses data)
      *     -i (does not export invoices data)
      *     -a (exports data for all days, overrides --date)
      *     -f (does not connect to ftp)
@@ -192,7 +193,7 @@ class ExportRegistriesController extends AbstractActionController
         $businessInvoicesByDate = $this->retrieveBusinessData();
 
         // Start the ftp connection and login
-        //$this->connectToServer($this->exportConfig);
+        $this->connectToServer($this->exportConfig);
 
         foreach ($customerInvoicesByDate as $invoices) {
             $date = $invoices[0]->getDateTimeDate();
@@ -368,13 +369,12 @@ class ExportRegistriesController extends AbstractActionController
             if (mkdir($path)) {
                 $this->logger->log("Done!\n");
             } else {
-                //TODO
-                //$this->emailService->sendEmail(
-                //    $this->alertConfig['to'],
-                //    "Sharengo - export error",
-                //    "Error while creating local directory at path " . $path .
-                //    " Export was aborted"
-                //);
+                $this->emailService->sendEmail(
+                    $this->alertConfig['to'],
+                    "Sharengo - export error",
+                    "Error while creating local directory at path " . $path .
+                    " Export was aborted"
+                );
                 $this->logger->log("Failed!\n");
                 exit;
             }
@@ -388,8 +388,6 @@ class ExportRegistriesController extends AbstractActionController
      */
     private function exportToFtp($from, $to)
     {
-        //TODO
-        return;
         if (!$this->noFtp) {
             if (ftp_put($this->ftpConn, $to, $from, FTP_ASCII)) {
                 $this->logger->log("File uploaded successfully\n");
@@ -411,8 +409,6 @@ class ExportRegistriesController extends AbstractActionController
      */
     private function connectToServer($config)
     {
-        //TODO
-        return;
         if (!$this->noFtp) {
             $this->logger->log("Connecting to ftp server... ");
             $this->ftpConn = ftp_connect($config['server']);
