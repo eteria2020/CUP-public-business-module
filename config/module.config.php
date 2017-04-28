@@ -107,6 +107,17 @@ return [
                         ]
                     ]
                 ],
+                'export-registries' => [
+                    'type' => 'simple',
+                    'options' => [
+                        'route' => 'export registries [--dry-run|-d] [--no-customers|-c] [--no-businesses|-b] [--no-invoices|-i] [--all|-a] [--no-ftp|-f] [--test-name|-t] [--date=] [--fleet=]',
+                        'defaults' => [
+                            '__NAMESPACE__' => 'CUPPublicBusinessModule\Controller',
+                            'controller' => 'ExportRegistries',
+                            'action' => 'export-registries'
+                        ]
+                    ]
+                ],
             ]
         ],
     ],
@@ -169,7 +180,8 @@ return [
             'CUPPublicBusinessModule\Controller\BusinessUserArea' => 'CUPPublicBusinessModule\Controller\BusinessUserAreaControllerFactory',
             'CUPPublicBusinessModule\Controller\Console' => 'CUPPublicBusinessModule\Controller\ConsoleControllerFactory',
             'CUPPublicBusinessModule\Controller\ConsoleAccountCompute' => 'CUPPublicBusinessModule\Controller\ConsoleAccountComputeControllerFactory',
-            'CUPPublicBusinessModule\Controller\ConsoleGroups' => 'CUPPublicBusinessModule\Controller\ConsoleGroupsControllerFactory'
+            'CUPPublicBusinessModule\Controller\ConsoleGroups' => 'CUPPublicBusinessModule\Controller\ConsoleGroupsControllerFactory',
+            'CUPPublicBusinessModule\Controller\ExportRegistries' => 'CUPPublicBusinessModule\Controller\ExportRegistriesControllerFactory'
         ]
     ],
     'view_manager' => [
@@ -196,6 +208,7 @@ return [
                 ['controller' =>  'CUPPublicBusinessModule\Controller\ConsoleGroups', 'roles' => []],
                 ['controller' =>  'CUPPublicBusinessModule\Controller\ConsoleAccountCompute', 'roles' => []],
                 ['controller' =>  'CUPPublicBusinessModule\Controller\BusinessUserArea', 'roles' => ['user']],
+                ['controller' =>  'CUPPublicBusinessModule\Controller\ExportRegistries', 'roles' => []],
             ],
         ],
     ],
