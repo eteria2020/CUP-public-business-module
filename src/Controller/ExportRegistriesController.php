@@ -297,7 +297,7 @@ class ExportRegistriesController extends AbstractActionController
             $this->logger->log("for " . $date->format('Y-m-d') . '...');
             $invoices = $this->customerInvoicesService->getInvoicesByDateAndFleetJoinCustomers($date, $filterFleet);
         }
-        $this->logger->log(" Retrieved!\n");
+        $this->logger->log(" Retrieved ".count($invoices)." invoices !!\n");
         return $this->customerInvoicesService->groupByInvoiceDate($invoices);
     }
 
