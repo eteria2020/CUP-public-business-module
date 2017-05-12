@@ -107,17 +107,17 @@ return [
                         ]
                     ]
                 ],
-                'export-registries' => [
-                    'type' => 'simple',
-                    'options' => [
-                        'route' => 'export registries [--dry-run|-d] [--no-customers|-c] [--no-businesses|-b] [--no-invoices|-i] [--all|-a] [--no-ftp|-f] [--test-name|-t] [--date=] [--fleet=]',
-                        'defaults' => [
-                            '__NAMESPACE__' => 'CUPPublicBusinessModule\Controller',
-                            'controller' => 'ExportRegistries',
-                            'action' => 'export-registries'
-                        ]
-                    ]
-                ],
+//                'export-registries' => [
+//                    'type' => 'simple',
+//                    'options' => [
+//                        'route' => 'export registries [--dry-run|-d] [--no-customers|-c] [--no-businesses|-b] [--no-invoices|-i] [--all|-a] [--no-ftp|-f] [--test-name|-t] [--date=] [--fleet=]',
+//                        'defaults' => [
+//                            '__NAMESPACE__' => 'CUPPublicBusinessModule\Controller',
+//                            'controller' => 'ExportRegistries',
+//                            'action' => 'export-registries'
+//                        ]
+//                    ]
+//                ],
             ]
         ],
     ],
