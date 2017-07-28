@@ -10,7 +10,7 @@ function initialize()
     refreshTable(lastPeriod);
 }
 
-$("#rents-filter-select").change(function()
+$("#rents-filter-select").change(function ()
 {
     var selectedValue = $(this).find(":selected").val();
     refreshTable(selectedValue);
@@ -76,7 +76,7 @@ function refreshTable(period)
 
             tripBonus = 0;
             if (typeof tripBonuses !== "undefined") {
-                for(i = 0; i < tripBonuses.length; i++) {
+                for (i = 0; i < tripBonuses.length; i++) {
                     tripBonus += tripBonuses[i]['minutes'];
                 }
 
@@ -87,14 +87,16 @@ function refreshTable(period)
             }
             tripFree = 0;
             if (typeof tripFreeFares !== "undefined") {
-                for(i = 0; i < tripFreeFares.length; i++) {
+                for (i = 0; i < tripFreeFares.length; i++) {
                     tripFree += tripFreeFares[0]['minutes'];
                 }
             }
 
-            // exclude trips less than 5 mins long
-            if (tripMinutes >= 5) {
-                addRow(
+            if (tripMinutes<0) {
+                tripMinutes = 0;
+            }
+
+            addRow(
                     0,
                     pinType,
                     trip['timestampBeginningString'],
@@ -109,17 +111,15 @@ function refreshTable(period)
                     trip['longitudeEnd'],
                     tripBonus,
                     tripFree
-                );
-
-            }
+                    );
 
             // after last line is rendered...
             if (--tripsCount === 0) {
                 addFinalRow(
-                    1,
-                    grandTotal + ' \u20ac',
-                    grandTotalToPay + ' \u20ac'
-                );
+                        1,
+                        grandTotal + ' \u20ac',
+                        grandTotalToPay + ' \u20ac'
+                        );
             }
         });
     });
@@ -144,247 +144,262 @@ var cssBorderTop = 'border-top';
 var hiddenRowClass = 'block-data-field';
 
 function addRow(
-    odd,
-    pinType,
-    startDate,
-    endDate,
-    tripMinutes,
-    parkingMinutes,
-    totalAmount,
-    mustPay,
-    latStart,
-    lonStart,
-    latEnd,
-    lonEnd,
-    bonusMinutes,
-    freeMinutes
-) {
+        odd,
+        pinType,
+        startDate,
+        endDate,
+        tripMinutes,
+        parkingMinutes,
+        totalAmount,
+        mustPay,
+        latStart,
+        lonStart,
+        latEnd,
+        lonEnd,
+        bonusMinutes,
+        freeMinutes
+        ) {
 
-var latStartPrintable = 'n.d.';
-if (latStart.length > 6) { latStartPrintable = latStart.substring(0, 6); }
-var lonStartPrintable = 'n.d.';
-if (lonStart.length > 6) { lonStartPrintable = lonStart.substring(0, 6); }
-var latEndPrintable = 'n.d.';
-if (latEnd && latEnd.length > 6) { latEndPrintable = latEnd.substring(0, 6); }
-var lonEndPrintable = 'n.d.';
-if (lonEnd && lonEnd.length > 6) { lonEndPrintable = lonEnd.substring(0, 6); }
+    var latStartPrintable = 'n.d.';
+    if (latStart.length > 6) {
+        latStartPrintable = latStart.substring(0, 6);
+    }
+    var lonStartPrintable = 'n.d.';
+    if (lonStart.length > 6) {
+        lonStartPrintable = lonStart.substring(0, 6);
+    }
+    var latEndPrintable = 'n.d.';
+    if (latEnd && latEnd.length > 6) {
+        latEndPrintable = latEnd.substring(0, 6);
+    }
+    var lonEndPrintable = 'n.d.';
+    if (lonEnd && lonEnd.length > 6) {
+        lonEndPrintable = lonEnd.substring(0, 6);
+    }
 
 // create the group for all the rows in a block
-var $group = $('<div>')
-    .appendTo($('#rents-table-body'));
-$group.addClass(groupClass);
-$group.addClass(clearfixClass);
+    var $group = $('<div>')
+            .appendTo($('#rents-table-body'));
+    $group.addClass(groupClass);
+    $group.addClass(clearfixClass);
 
 // create the visible row
-var $row = $('<div>')
-    .appendTo($group);
-$row.addClass('block-data-table-row');
-$row.addClass(clearfixClass);
-$row.addClass((odd) ? 'odd' : 'even');
+    var $row = $('<div>')
+            .appendTo($group);
+    $row.addClass('block-data-table-row');
+    $row.addClass(clearfixClass);
+    $row.addClass((odd) ? 'odd' : 'even');
 
 // create the date column
-var $tripType = $('<div>')
-    .appendTo($row);
-$tripType.html(pinType);
-$tripType.addClass(columnClass1);
-$tripType.addClass(columnClass2);
+    var $tripType = $('<div>')
+            .appendTo($row);
+    $tripType.html(pinType);
+    $tripType.addClass(columnClass1);
+    $tripType.addClass(columnClass2);
 
 // create the date column
-var $startDateCol = $('<div>')
-    .appendTo($row);
-$startDateCol.html(startDate);
-$startDateCol.addClass(columnClass1);
-$startDateCol.addClass(columnClass2);
+    var $startDateCol = $('<div>')
+            .appendTo($row);
+    $startDateCol.html(startDate);
+    $startDateCol.addClass(columnClass1);
+    $startDateCol.addClass(columnClass2);
 
 // create the hour column
-var $endDateCol = $('<div>')
-    .appendTo($row);
-$endDateCol.html(endDate);
-$endDateCol.addClass(columnClass1);
-$endDateCol.addClass(columnClass2);
+    var $endDateCol = $('<div>')
+            .appendTo($row);
+    $endDateCol.html(endDate);
+    $endDateCol.addClass(columnClass1);
+    $endDateCol.addClass(columnClass2);
 
 // create the start column
-var $tripMinutesCol = $('<div>')
-    .appendTo($row);
-$tripMinutesCol.html(tripMinutes);
-$tripMinutesCol.addClass(columnClass1);
-$tripMinutesCol.addClass(columnClass2);
-$tripMinutesCol.addClass(classCenter);
+    var $tripMinutesCol = $('<div>')
+            .appendTo($row);
+    $tripMinutesCol.html(tripMinutes);
+    $tripMinutesCol.addClass(columnClass1);
+    $tripMinutesCol.addClass(columnClass2);
+    $tripMinutesCol.addClass(classCenter);
 
 // create the partial amount column
-var $parkingMinutesCol = $('<div>')
-    .appendTo($row);
-$parkingMinutesCol.html(parkingMinutes);
-$parkingMinutesCol.addClass(columnClass1);
-$parkingMinutesCol.addClass(columnClass2);
-$parkingMinutesCol.addClass(classCenter);
+    var $parkingMinutesCol = $('<div>')
+            .appendTo($row);
+    $parkingMinutesCol.html(parkingMinutes);
+    $parkingMinutesCol.addClass(columnClass1);
+    $parkingMinutesCol.addClass(columnClass2);
+    $parkingMinutesCol.addClass(classCenter);
 
 // create the total amount column
-var $totalAmountCol = $('<div>')
-    .appendTo($row);
-$totalAmountCol.html(totalAmount);
-$totalAmountCol.addClass(columnClass1);
-$totalAmountCol.addClass(columnClass2);
-$totalAmountCol.addClass(classRight);
+    var $totalAmountCol = $('<div>')
+            .appendTo($row);
+    $totalAmountCol.html(totalAmount);
+    $totalAmountCol.addClass(columnClass1);
+    $totalAmountCol.addClass(columnClass2);
+    $totalAmountCol.addClass(classRight);
 
 // create the total amount column
-var $mustPayCol = $('<div>')
-    .appendTo($row);
-$mustPayCol.html(mustPay);
-$mustPayCol.addClass(columnClass1);
-$mustPayCol.addClass(columnClass2);
-$mustPayCol.addClass(classRight);
+    var $mustPayCol = $('<div>')
+            .appendTo($row);
+    $mustPayCol.html(mustPay);
+    $mustPayCol.addClass(columnClass1);
+    $mustPayCol.addClass(columnClass2);
+    $mustPayCol.addClass(classRight);
 
 // create the first hidden row
-var $hiddenRow1 = $('<div>')
-    .appendTo($group);
-$hiddenRow1.addClass('block-data-table-row');
-$hiddenRow1.addClass(datainfoClass);
-$hiddenRow1.addClass(clearfixClass);
+    var $hiddenRow1 = $('<div>')
+            .appendTo($group);
+    $hiddenRow1.addClass('block-data-table-row');
+    $hiddenRow1.addClass(datainfoClass);
+    $hiddenRow1.addClass(clearfixClass);
 
 // create the start address column
-var $startAddressCol = $('<div>')
-    .appendTo($hiddenRow1);
-$startAddressCol.html('');
-$startAddressCol.addClass(columnClass1);
-$startAddressCol.addClass(columnClass5);
+    var $startAddressCol = $('<div>')
+            .appendTo($hiddenRow1);
+    $startAddressCol.html('');
+    $startAddressCol.addClass(columnClass1);
+    $startAddressCol.addClass(columnClass5);
 
     var $startAddressSpan = $('<span>')
-        .appendTo($startAddressCol);
+            .appendTo($startAddressCol);
     $startAddressSpan.html('Partenza: ');
     $startAddressSpan.addClass(hiddenRowClass);
 
-$startAddressCol.html($startAddressCol.html() + '<a href="#">Lat: ' + latStartPrintable + ' - Lon: ' + lonStartPrintable + '</a>');
-$startAddressCol.click(function() {
-    loadMapPopup(latStart, lonStart);
-    return false;
-});
+    $startAddressCol.html($startAddressCol.html() + '<a href="#">Lat: ' + latStartPrintable + ' - Lon: ' + lonStartPrintable + '</a>');
+    $startAddressCol.click(function () {
+        loadMapPopup(latStart, lonStart);
+        return false;
+    });
 
 // create the end address column
-var $endAddressCol = $('<div>')
-    .appendTo($hiddenRow1);
-$endAddressCol.html('');
-$endAddressCol.addClass(columnClass1);
-$endAddressCol.addClass(columnClass5);
+    var $endAddressCol = $('<div>')
+            .appendTo($hiddenRow1);
+    $endAddressCol.html('');
+    $endAddressCol.addClass(columnClass1);
+    $endAddressCol.addClass(columnClass5);
 
     var $endAddressSpan = $('<span>')
-        .appendTo($endAddressCol);
+            .appendTo($endAddressCol);
     $endAddressSpan.html('Destinazione: ');
     $endAddressSpan.addClass(hiddenRowClass);
 
-if (latEndPrintable != 'n.d.' && lonEndPrintable != 'n.d.') {
-    $endAddressCol.html($endAddressCol.html() + '<a href="#">Lat: ' + latEndPrintable + ' - Lon: ' + lonEndPrintable + '</a>');
-} else {
-    $endAddressCol.html($endAddressCol.html() + 'Lat: ' + latEndPrintable + ' - Lon: ' + lonEndPrintable);
-}
-$endAddressCol.click(function() {
-    loadMapPopup(latEnd, lonEnd);
-    return false;
-});
+    if (latEndPrintable != 'n.d.' && lonEndPrintable != 'n.d.') {
+        $endAddressCol.html($endAddressCol.html() + '<a href="#">Lat: ' + latEndPrintable + ' - Lon: ' + lonEndPrintable + '</a>');
+    } else {
+        $endAddressCol.html($endAddressCol.html() + 'Lat: ' + latEndPrintable + ' - Lon: ' + lonEndPrintable);
+    }
+    $endAddressCol.click(function () {
+        loadMapPopup(latEnd, lonEnd);
+        return false;
+    });
 
     // create the second hidden row
     if (bonusMinutes !== 0 ||
-        freeMinutes !== 0) {
+            freeMinutes !== 0) {
         var $hiddenRow2 = $('<div>')
-            .appendTo($group);
+                .appendTo($group);
         $hiddenRow2.addClass('block-data-table-row');
         $hiddenRow2.addClass(datainfoClass);
         $hiddenRow2.addClass(clearfixClass);
 
-            // create the start address column
-            var $bonusMinutesCol = $('<div>')
+        // create the start address column
+        var $bonusMinutesCol = $('<div>')
                 .appendTo($hiddenRow2);
-            $bonusMinutesCol.html('');
-            $bonusMinutesCol.addClass(columnClass1);
-            $bonusMinutesCol.addClass(columnClass5);
+        $bonusMinutesCol.html('');
+        $bonusMinutesCol.addClass(columnClass1);
+        $bonusMinutesCol.addClass(columnClass5);
 
-                var $bonusMinutesSpan = $('<span>')
-                    .appendTo($bonusMinutesCol);
-                $bonusMinutesSpan.html('Minuti bonus consumati: ' + bonusMinutes);
-                $bonusMinutesSpan.addClass(hiddenRowClass);
+        var $bonusMinutesSpan = $('<span>')
+                .appendTo($bonusMinutesCol);
+        $bonusMinutesSpan.html('Minuti bonus consumati: ' + bonusMinutes);
+        $bonusMinutesSpan.addClass(hiddenRowClass);
 
-            // create the end address column
-            var $freeMinutesCol = $('<div>')
+        // create the end address column
+        var $freeMinutesCol = $('<div>')
                 .appendTo($hiddenRow2);
-            $freeMinutesCol.html('');
-            $freeMinutesCol.addClass(columnClass1);
-            $freeMinutesCol.addClass(columnClass5);
+        $freeMinutesCol.html('');
+        $freeMinutesCol.addClass(columnClass1);
+        $freeMinutesCol.addClass(columnClass5);
 
-                var $freeMinutesSpan = $('<span>')
-                    .appendTo($freeMinutesCol);
-                $freeMinutesSpan.html('Minuti gratuiti fruiti: ' + freeMinutes);
-                $freeMinutesSpan.addClass(hiddenRowClass);
+        var $freeMinutesSpan = $('<span>')
+                .appendTo($freeMinutesCol);
+        $freeMinutesSpan.html('Minuti gratuiti fruiti: ' + freeMinutes);
+        $freeMinutesSpan.addClass(hiddenRowClass);
 
     }
 }
 
 function addFinalRow(
-    odd,
-    totalAmount,
-    mustPay
-) {
-        // create the group for all the rows in a block
-        var $group = $('<div>')
+        odd,
+        totalAmount,
+        mustPay
+        ) {
+    // create the group for all the rows in a block
+    var $group = $('<div>')
             .appendTo($('#rents-table-body'));
-        $group.addClass(groupClass);
-        $group.addClass(clearfixClass);
-        $group.addClass(cssBorderTop);
+    $group.addClass(groupClass);
+    $group.addClass(clearfixClass);
+    $group.addClass(cssBorderTop);
 
-        // create the visible row
-        var $row = $('<div>')
+    // create the visible row
+    var $row = $('<div>')
             .appendTo($group);
-        $row.addClass('block-data-table-row');
-        $row.addClass(clearfixClass);
-        $row.addClass((odd) ? 'odd' : 'even');
+    $row.addClass('block-data-table-row');
+    $row.addClass(clearfixClass);
+    $row.addClass((odd) ? 'odd' : 'even');
 
-        // create first column
-        var $startDateCol = $('<div>')
+    // create first column
+    var $typologyCol = $('<div>')
             .appendTo($row);
-        $startDateCol.html('');
-        $startDateCol.addClass(columnClass1);
-        $startDateCol.addClass(columnClass2);
+    $typologyCol.html('');
+    $typologyCol.addClass(columnClass1);
+    $typologyCol.addClass(columnClass2);
 
-        // create second column
-        var $endDateCol = $('<div>')
+    // create second column
+    var $startDateCol = $('<div>')
             .appendTo($row);
-        $endDateCol.html('');
-        $endDateCol.addClass(columnClass1);
-        $endDateCol.addClass(columnClass2);
+    $startDateCol.html('');
+    $startDateCol.addClass(columnClass1);
+    $startDateCol.addClass(columnClass2);
 
-        // create third column
-        var $tripMinutesCol = $('<div>')
+    // create third column
+    var $endDateCol = $('<div>')
             .appendTo($row);
-        $tripMinutesCol.html('');
-        $tripMinutesCol.addClass(columnClass1);
-        $tripMinutesCol.addClass(columnClass2);
+    $endDateCol.html('');
+    $endDateCol.addClass(columnClass1);
+    $endDateCol.addClass(columnClass2);
 
-        // create fourth column
-        var $parkingMinutesCol = $('<div>')
+    // create fourth column
+    var $tripMinutesCol = $('<div>')
             .appendTo($row);
-        $parkingMinutesCol.html('<strong>Totali periodo</strong>');
-        $parkingMinutesCol.addClass(columnClass1);
-        $parkingMinutesCol.addClass(columnClass2);
+    $tripMinutesCol.html('');
+    $tripMinutesCol.addClass(columnClass1);
+    $tripMinutesCol.addClass(columnClass2);
 
-        // create the total amount column
-        var $totalAmountCol = $('<div>')
+    // create fifth column
+    var $parkingMinutesCol = $('<div>')
             .appendTo($row);
-        $totalAmountCol.html('<strong>' + formatCurrency(totalAmount) + '</strong>');
-        $totalAmountCol.addClass(columnClass1);
-        $totalAmountCol.addClass(columnClass2);
-        $totalAmountCol.addClass(classRight);
+    $parkingMinutesCol.html('<strong>Totali periodo</strong>');
+    $parkingMinutesCol.addClass(columnClass1);
+    $parkingMinutesCol.addClass(columnClass2);
 
-        // create the total amount column
-        var $mustPayCol = $('<div>')
+    // create the total amount column
+    var $totalAmountCol = $('<div>')
             .appendTo($row);
-        $mustPayCol.html('<strong>' + formatCurrency(mustPay) + '</strong>');
-        $mustPayCol.addClass(columnClass1);
-        $mustPayCol.addClass(columnClass2);
-        $mustPayCol.addClass(classRight);
+    $totalAmountCol.html('<strong>' + formatCurrency(totalAmount) + '</strong>');
+    $totalAmountCol.addClass(columnClass1);
+    $totalAmountCol.addClass(columnClass2);
+    $totalAmountCol.addClass(classRight);
+
+    // create the total amount column
+    var $mustPayCol = $('<div>')
+            .appendTo($row);
+    $mustPayCol.html('<strong>' + formatCurrency(mustPay) + '</strong>');
+    $mustPayCol.addClass(columnClass1);
+    $mustPayCol.addClass(columnClass2);
+    $mustPayCol.addClass(classRight);
 
 }
 
 var $mapPopup = $('#map-popup');
-$mapPopup.click(function() {
+$mapPopup.click(function () {
     hideMapPopup();
 });
 
@@ -395,12 +410,12 @@ function formatCurrency(value) {
 function loadMapPopup(lat, lng)
 {
     $mapPopup.html(
-    '<img id="map-popup-img" src="' +
-    'https://www.google.it/maps/api/staticmap?center=' +
-    lat + ',' + lng +
-    '&zoom=16&sensor=false&size=800x600&markers=color:green%7C' +
-    lat + ',' + lng +
-    '" class="map-popup-img">');
+            '<img id="map-popup-img" src="' +
+            'https://www.google.it/maps/api/staticmap?center=' +
+            lat + ',' + lng +
+            '&zoom=16&sensor=false&size=800x600&markers=color:green%7C' +
+            lat + ',' + lng +
+            '" class="map-popup-img">');
     $mapPopup.show();
 }
 
