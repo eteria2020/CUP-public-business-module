@@ -55,6 +55,11 @@ class BusinessAssociationController extends AbstractActionController
 
     public function businessAssociationAction()
     {
+
+        if(is_null($this->identity())) {
+            return $this->redirect()->toRoute('login');
+        }
+
         $employeeId = $this->identity()->getId();
         $employee = $this->employeeService->getEmployeeFromId($employeeId);
 
