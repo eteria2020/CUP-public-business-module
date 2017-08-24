@@ -40,11 +40,12 @@ function refreshTable(period)
 
             var diffMinutes = trip['duration'];    //minutes
 
+            // show GRATIS for trips lower than one minute
             var tripMinutes = diffMinutes;
             var parkingMinutes = Math.ceil(trip['parkSeconds'] / 60);
-            var totalAmount = 'in elaborazione';
+            var totalAmount = 'GRATIS';
             var totalAmountValue = 0;
-            var mustPay = 'in elaborazione';
+            var mustPay = 'GRATIS';
             var mustPayValue = 0;
             var pinType = 'Privata';
 
@@ -55,10 +56,10 @@ function refreshTable(period)
                 mustPay = '-';
             }
 
-            // show FREE for not accountable trips
+            // show GRATIS for not accountable trips
             if (!trip['isAccountable']) {
-                totalAmount = 'FREE';
-                mustPay = 'FREE';
+                totalAmount = 'GRATIS';
+                mustPay = 'GRATIS';
             }
 
             if (typeof tripPayment !== "undefined") {
