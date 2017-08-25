@@ -55,6 +55,11 @@ class BusinessAssociationController extends AbstractActionController
 
     public function businessAssociationAction()
     {
+        //if there is mobile param the layout changes
+        $mobile = $this->params()->fromRoute('mobile');
+        if ($mobile) {
+            $this->layout('layout/map');
+        }
 
         if(is_null($this->identity())) {
             return $this->redirect()->toRoute('login');
@@ -82,6 +87,9 @@ class BusinessAssociationController extends AbstractActionController
                 $this->businessService->associateEmployeeToBusinessByAssociationCode($employeeId, $postData['code']);
 
                 $this->flashMessenger()->addSuccessMessage($this->translator->translate('Operazione avvenuta con successo! Appena verrai confermato riceverai una email con le istruzioni'));
+                if ($mobile){
+                    return $this->redirect()->toRoute('area-utente/mobile');
+                }
                 return $this->redirect()->toRoute('area-utente');
             } catch (EntityNotFoundException $e) {
                 $this->flashMessenger()->addErrorMessage($this->translator->translate('Il codice inserito non è valido'));

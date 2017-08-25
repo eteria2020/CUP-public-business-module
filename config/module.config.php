@@ -139,34 +139,43 @@ return [
                     'associate' => [
                         'type' => 'Segment',
                         'options' => [
-                            'route' => '/{associa}',
+                            'route' => '/{associa}[/:mobile]',
                             'defaults' => [
                                 '__NAMESPACE__' => 'CUPPublicBusinessModule\Controller',
                                 'controller' => 'BusinessAssociation',
                                 'action' => 'business-association',
                             ],
+                            'constraints' => [
+                                'mobile' => 'mobile'
+                            ]
                         ],
                     ],
                     //overwrite default routes
                     'pin' => [
                         'type' => 'Segment',
                         'options' => [
-                            'route' => '/{pin}',
+                            'route' => '/{pin}[/:mobile]',
                             'defaults' => [
                                 '__NAMESPACE__' => 'CUPPublicBusinessModule\Controller',
                                 'controller' => 'BusinessUserArea',
                                 'action' => 'pin',
+                            ],
+                            'constraints' => [
+                                'mobile' => 'mobile'
                             ]
                         ]
                     ],
                     'rents' => [
                         'type' => 'Segment',
                         'options' => [
-                            'route' => '/{corse}',
+                            'route' => '/{corse}[/:mobile]',
                             'defaults' => [
                                 '__NAMESPACE__' => 'CUPPublicBusinessModule\Controller',
                                 'controller' => 'BusinessUserArea',
                                 'action' => 'rents',
+                            ],
+                            'constraints' => [
+                                'mobile' => 'mobile'
                             ]
                         ]
                     ],

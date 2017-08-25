@@ -54,6 +54,11 @@ class BusinessUserAreaController extends AbstractActionController
 
     public function pinAction()
     {
+        //if there is mobile param the layout changes
+        $mobile = $this->params()->fromRoute('mobile');
+        if ($mobile) {
+            $this->layout('layout/map');
+        }
         /** @var Customers $customer */
         $customer = $this->identity();
         $employee = $this->employeeService->getEmployeeFromId($customer->getId());
@@ -72,6 +77,11 @@ class BusinessUserAreaController extends AbstractActionController
 
     public function rentsAction()
     {
+        //if there is mobile param the layout changes
+        $mobile = $this->params()->fromRoute('mobile');
+        if ($mobile) {
+            $this->layout('layout/map');
+        }
         $customer = $this->authService->getIdentity();
         $availableDates = $this->tripsService->getDistinctDatesForCustomerByMonth($customer);
 
