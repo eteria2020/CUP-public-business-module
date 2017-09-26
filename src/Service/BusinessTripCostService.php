@@ -6,9 +6,6 @@ use BusinessCore\Entity\BusinessFare;
 use BusinessCore\Entity\BusinessTrip;
 use BusinessCore\Entity\BusinessTripPayment;
 use SharengoCore\Entity\Trips;
-use SharengoCore\Entity\TripPayments;
-use SharengoCore\Entity\TripPaymentTries;
-use SharengoCore\Entity\Customers;
 
 use Doctrine\ORM\PersistentCollection;
 use Doctrine\ORM\EntityManager;
@@ -144,6 +141,12 @@ class BusinessTripCostService
         $this->entityManager->flush();
     }
 
+    /**
+     * 
+     * @param BusinessFare $businessFare
+     * @param type $minutes
+     * @return type
+     */
     private function motionMinutesToEuro(BusinessFare $businessFare, $minutes)
     {
         $previousStep = INF;
@@ -157,9 +160,8 @@ class BusinessTripCostService
             $previousStep = $stepCost;
         }
 
-        $motionDiscount = $businessFare->getMotionDiscount();
-        $discountedMotionFare = $fare->getMotionCostPerMinute() * (100 - $motionDiscount) / 100;
-        return min($previousStep, $discountedMotionFare * $minutes);
+        $motionFare = $fare->getMotionCostPerMinute() * (100 - $businessFare->getMotionDiscount()) / 100;
+        return min($previousStep, $motionFare * $minutes);
     }
 
     /**
@@ -172,20 +174,13 @@ class BusinessTripCostService
      */
     private function tripCost(BusinessFare $businessFare, $tripMinutes, $parkMinutes)
     {
-        $fare = $businessFare->getBaseFare();
-        $parkDiscount = $businessFare->getParkDiscount();
+       $parkFare = $businessFare->getBaseFareParkCostPerMinute() * (100 - $businessFare->getParkDiscount()) / 100;
 
-        $discountedParkFare = $fare->getParkCostPerMinute() * (100 - $parkDiscount) / 100;
-        //trip minutes = 5
-        //park 6 minuti
-        if ($parkMinutes > $tripMinutes) {
-            $parkMinutes = $tripMinutes;
-            $motionMinutes = 0;
-        } else {
-            $motionMinutes = $tripMinutes - $parkMinutes;
-        }
+       return min(
+            $this->motionMinutesToEuro($businessFare, $tripMinutes),
+            $this->motionMinutesToEuro($businessFare, $tripMinutes - $parkMinutes) + $parkMinutes * $parkFare
+        );
 
-        return $this->motionMinutesToEuro($businessFare, $motionMinutes) + $parkMinutes * $discountedParkFare;
     }
 
     /**
