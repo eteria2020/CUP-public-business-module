@@ -142,7 +142,7 @@ class BusinessTripCostService
     }
 
     /**
-     * 
+     *
      * @param BusinessFare $businessFare
      * @param type $minutes
      * @return type
