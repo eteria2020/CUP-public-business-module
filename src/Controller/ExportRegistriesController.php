@@ -210,7 +210,7 @@ class ExportRegistriesController extends AbstractActionController {
             // Export business data
             $this->exportData($date, $businessEntries, self::TYPE_BUSINESSES, $path);
         }
-return;
+
         if (!$this->noFtp) {
             ftp_close($this->ftpConn);
         }
@@ -265,7 +265,7 @@ return;
             try {
                 $filterFleet = $this->businessFleetService->getFleetByCode($filterFleet);
             } catch (FleetNotFoundException $ex) {
-                $this->logger->log(date_create()->format('y-m-d H:i:s') . ";ERR;retrieveBusinessData;invalid fleet code" . $filterFleet . ";".$ex->getMessage()."\n");
+                $this->logger->log(date_create()->format('y-m-d H:i:s') . ";ERR;retrieveBusinessData;invalid fleet code" . $filterFleet . ";" . $ex->getMessage() . "\n");
                 exit;
             }
         }
