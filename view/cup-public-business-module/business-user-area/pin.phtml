@@ -38,14 +38,14 @@
                             </div>
 
                         </div>
-
+                        <?php if (!$this->mobile){ ?>
                         <div class="pin-info" style="text-align: center; font-size: 20px; line-height: 2.022287066089143; font-weight: 500;">
                             <a href="http://site.sharengo.it/come-funziona/" style="color: #43a34c;">
                                 <i class="fa fa-question-circle"></i>
                                 <span style="text-decoration: underline; text-transform: uppercase;"> <?= $this->translate('Guarda come si usa'); ?></span>
                             </a>
                         </div>
-
+                        <?php } ?>
                         <div style="min-width: 350px;  min-height: 200px; overflow:hidden;">
                             <div style="padding-bottom: 30px; padding-top: 20px;  text-align:center">
                                 <?= $this->translate('Vuoi anche una CARD APRIPORTA associata al tuo account?'); ?><br />

@@ -70,7 +70,8 @@ class BusinessUserAreaController extends AbstractActionController
         }
         return new ViewModel(
             [
-                'businesses' => $businesses
+                'businesses' => $businesses,
+                'mobile' => $mobile
             ]
         );
     }
