@@ -6,19 +6,18 @@ use BusinessCore\Entity\BusinessFare;
 use BusinessCore\Entity\BusinessTrip;
 use BusinessCore\Entity\BusinessTripPayment;
 use SharengoCore\Entity\Trips;
-
 use Doctrine\ORM\PersistentCollection;
 use Doctrine\ORM\EntityManager;
 
-class BusinessTripCostService
-{
+class BusinessTripCostService {
+
     /**
      * @var EntityManager
      */
     private $entityManager;
 
     public function __construct(
-        EntityManager $entityManager
+    EntityManager $entityManager
     ) {
         $this->entityManager = $entityManager;
     }
@@ -34,9 +33,7 @@ class BusinessTripCostService
      * @throws \Exception
      */
     public function computeBusinessTripCost(
-        Trips $trip,
-        BusinessTrip $businessTrip,
-        $avoidPersistance = true
+    Trips $trip, BusinessTrip $businessTrip, $avoidPersistance = true
     ) {
         try {
             $businessTripPayment = $this->retrieveBusinessTripPayment($trip, $businessTrip);
@@ -64,8 +61,7 @@ class BusinessTripCostService
      * @param BusinessTrip $businessTrip
      * @return BusinessTripPayment
      */
-    public function retrieveBusinessTripPayment(Trips $trip, BusinessTrip $businessTrip)
-    {
+    public function retrieveBusinessTripPayment(Trips $trip, BusinessTrip $businessTrip) {
         // retrieve the fare for the trip
         $businessFare = $businessTrip->getBusiness()->getActiveBusinessFare();
 
@@ -79,10 +75,7 @@ class BusinessTripCostService
         $cost = $this->businessTripCost($businessFare, $tripMinutes, $parkMinutes);
 
         return new BusinessTripPayment(
-            $businessTrip->getBusiness(),
-            $businessTrip,
-            $cost,
-            'EUR'
+                $businessTrip->getBusiness(), $businessTrip, $cost, 'EUR'
         );
     }
 
@@ -93,8 +86,7 @@ class BusinessTripCostService
      * @param PersistentCollection $tripBills
      * @return int
      */
-    private function cumulateMinutes(PersistentCollection $tripBills)
-    {
+    private function cumulateMinutes(PersistentCollection $tripBills) {
         $minutes = 0;
 
         foreach ($tripBills as $tripBill) {
@@ -111,8 +103,7 @@ class BusinessTripCostService
      * @param $tripMinutes
      * @return int
      */
-    private function computeParkMinutes(Trips $trip, $tripMinutes)
-    {
+    private function computeParkMinutes(Trips $trip, $tripMinutes) {
         // 29sec -> 0min, 30sec -> 1 min
         $tripParkMinutes = ceil(($trip->getParkSeconds() - 29) / 60);
         // we don't want to have more parking minutes than the payable length
@@ -120,8 +111,7 @@ class BusinessTripCostService
         return min($tripMinutes, $tripParkMinutes);
     }
 
-    private function tripCostComputed(Trips $trip)
-    {
+    private function tripCostComputed(Trips $trip) {
         $trip->setCostComputed(true);
 
         $this->entityManager->persist($trip);
@@ -135,8 +125,7 @@ class BusinessTripCostService
      * @throws \Doctrine\ORM\OptimisticLockException
      * @throws \Doctrine\ORM\ORMInvalidArgumentException
      */
-    private function saveTripPayment(BusinessTripPayment $tripPayment)
-    {
+    private function saveTripPayment(BusinessTripPayment $tripPayment) {
         $this->entityManager->persist($tripPayment);
         $this->entityManager->flush();
     }
@@ -147,22 +136,22 @@ class BusinessTripCostService
      * @param type $minutes
      * @return type
      */
-    private function motionMinutesToEuro(BusinessFare $businessFare, $minutes)
-    {
-        $previousStep = INF;
-
-        $fare = $businessFare->getBaseFare();
-        foreach ($fare->getCostSteps() as $step => $stepCost) {
-            if ($minutes > $step) {
-                return min($previousStep, $stepCost + $this->motionMinutesToEuro($businessFare, $minutes - $step));
-            }
-
-            $previousStep = $stepCost;
-        }
-
-        $motionFare = $fare->getMotionCostPerMinute() * (100 - $businessFare->getMotionDiscount()) / 100;
-        return min($previousStep, $motionFare * $minutes);
-    }
+//    private function motionMinutesToEuro(BusinessFare $businessFare, $minutes)
+//    {
+//        $previousStep = INF;
+//
+//        $fare = $businessFare->getBaseFare();
+//        foreach ($fare->getCostSteps() as $step => $stepCost) {
+//            if ($minutes > $step) {
+//                return min($previousStep, $stepCost + $this->motionMinutesToEuro($businessFare, $minutes - $step));
+//            }
+//
+//            $previousStep = $stepCost;
+//        }
+//
+//        $motionFare = $fare->getMotionCostPerMinute() * (100 - $businessFare->getMotionDiscount()) / 100;
+//        return min($previousStep, $motionFare * $minutes);
+//    }
 
     /**
      * computes the cost of a trip considering the minutes of parking
@@ -172,15 +161,11 @@ class BusinessTripCostService
      * @param int $parkMinutes
      * @return mixed
      */
-    private function tripCost(BusinessFare $businessFare, $tripMinutes, $parkMinutes)
-    {
-       $parkFare = $businessFare->getBaseFareParkCostPerMinute() * (100 - $businessFare->getParkDiscount()) / 100;
+    private function tripCost(BusinessFare $businessFare, $tripMinutes, $parkMinutes) {
+        $parkFare = $businessFare->getBaseFareParkCostPerMinute() * (100 - $businessFare->getParkDiscount()) / 100;
+        $motionFare = $businessFare->getBaseFareMotionCostPerMinute() * (100 - $businessFare->getMotionDiscount()) / 100;
 
-       return min(
-            $this->motionMinutesToEuro($businessFare, $tripMinutes),
-            $this->motionMinutesToEuro($businessFare, $tripMinutes - $parkMinutes) + $parkMinutes * $parkFare
-        );
-
+        return ($tripMinutes - $parkMinutes) * $motionFare + $parkMinutes * $parkFare;
     }
 
     /**
@@ -192,8 +177,8 @@ class BusinessTripCostService
      * @param int $parkMinutes
      * @return float
      */
-    public function businessTripCost(BusinessFare $businessFare, $tripMinutes, $parkMinutes)
-    {
+    public function businessTripCost(BusinessFare $businessFare, $tripMinutes, $parkMinutes) {
         return round($this->tripCost($businessFare, $tripMinutes, $parkMinutes));
     }
+
 }
