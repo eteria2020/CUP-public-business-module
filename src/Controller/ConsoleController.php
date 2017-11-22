@@ -12,28 +12,33 @@ use SharengoCore\Service\PaymentScriptRunsService;
 use SharengoCore\Service\SimpleLoggerService as Logger;
 use Zend\Mvc\Controller\AbstractActionController;
 
-class ConsoleController extends AbstractActionController
-{
+class ConsoleController extends AbstractActionController {
+
     /**
      * @var Logger
      */
     private $logger;
+
     /**
      * @var BusinessService
      */
     private $businessService;
+
     /**
      * @var BusinessTripService
      */
     private $businessTripService;
+
     /**
      * @var BusinessInvoiceService
      */
     private $businessInvoiceService;
+
     /**
      * @var BusinessPaymentService
      */
     private $businessPaymentService;
+
     /**
      * @var PaymentScriptRunsService
      */
@@ -49,13 +54,7 @@ class ConsoleController extends AbstractActionController
      * @param PaymentScriptRunsService $paymentScriptRunsService
      */
     public function __construct(
-        Logger $logger,
-        BusinessService $businessService,
-        BusinessTripService $businessTripService,
-        BusinessInvoiceService $businessInvoiceService,
-        BusinessPaymentService $businessPaymentService,
-        PaymentScriptRunsService $paymentScriptRunsService
-
+    Logger $logger, BusinessService $businessService, BusinessTripService $businessTripService, BusinessInvoiceService $businessInvoiceService, BusinessPaymentService $businessPaymentService, PaymentScriptRunsService $paymentScriptRunsService
     ) {
         $this->logger = $logger;
         $this->businessService = $businessService;
@@ -65,9 +64,10 @@ class ConsoleController extends AbstractActionController
         $this->paymentScriptRunsService = $paymentScriptRunsService;
     }
 
-    public function businessPayInvoiceAction()
-    {
+    public function businessPayInvoiceAction() {
         $this->initLogger();
+
+        $this->logger->log(date_create()->format('Y-m-d H:i:s').";INF;businessPayInvoiceAction;start\n");
 
         $scriptId = $this->paymentScriptRunsService->scriptStarted();
 
@@ -82,7 +82,7 @@ class ConsoleController extends AbstractActionController
 
         $this->paymentScriptRunsService->scriptEnded($scriptId);
 
-        $this->logger->log("payment processed for " . $count . " businesses\n");
+        $this->logger->log(date_create()->format('H:i:s').";INF;businessPayInvoiceAction;end;payments;" . $count . "\n");
         $count = 0;
         $businesses = $this->businessService->getAllBusinesses();
         foreach ($businesses as $business) {
@@ -91,11 +91,10 @@ class ConsoleController extends AbstractActionController
                 $count++;
             }
         }
-        $this->logger->log("invoice processed for " . $count . " businesses\n");
+        $this->logger->log(date_create()->format('H:i:s').";INF;businessPayInvoiceAction;end;invoices;" . $count . "\n");
     }
 
-    public function generateBusinessInvoicesAction()
-    {
+    public function generateBusinessInvoicesAction() {
         $this->initLogger();
         $businessCode = $this->getRequest()->getParam('businessCode');
         $business = $this->businessService->getBusinessByCode($businessCode);
@@ -104,11 +103,9 @@ class ConsoleController extends AbstractActionController
             return;
         }
         $this->generateBusinessInvoices($business);
-
     }
 
-    public function makeBusinessPayAction()
-    {
+    public function makeBusinessPayAction() {
         $this->initLogger();
 
         $businessCode = $this->getRequest()->getParam('businessCode');
@@ -120,43 +117,46 @@ class ConsoleController extends AbstractActionController
         $this->makeBusinessPay($business);
     }
 
-    private function makeBusinessPay(Business $business)
-    {
-        if (!$business->hasActiveContract()) {
-            $this->logger->log("No active contract found for business " . $business->getCode() . "\n");
-            return;
+    private function makeBusinessPay(Business $business) {
+        try {
+
+            $this->logger->log(date_create()->format('H:i:s').";INF;makeBusinessPay;".$business->getCode().";start\n");
+            if (!$business->hasActiveContract()) {
+                $this->logger->log(date_create()->format('H:i:s').";WAR;makeBusinessPay;".$business->getCode().";no contract\n");
+                return;
+            }
+
+            $businessTripsPayments = $this->businessPaymentService->getPendingBusinessTripPayments($business);
+
+            if (count($businessTripsPayments) > 0) {
+                $this->businessTripService->payTrips($business, $businessTripsPayments);
+            }
+
+            $businessExtraPayments = $this->businessPaymentService->getPendingBusinessExtraPayments($business);
+
+            if (count($businessExtraPayments) > 0) {
+                $this->businessTripService->payExtras($business, $businessExtraPayments);
+            }
+
+            $this->logger->log(date_create()->format('H:i:s').";INF;makeBusinessPay;".$business->getCode().";trips;".count($businessTripsPayments).";extra".count($businessExtraPayments)."\n");
+
+            $business->paymentExecuted();
+            $this->businessService->persistBusiness($business);
+
+            //$this->logger->log("Done payments for business " . $business->getCode() . "\ntime = " . date_create()->format('Y-m-d H:i:s') . "\n\n");
+            } catch (\Exception $e) {
+                $this->logger->log( date_create()->format('H:i:s').";ERR;makeBusinessPay;general exception;tripPayment->getId;".$tripPayment->getId() . "\n");
+                $this->logger->log($e->getMessage() . " " . $e->getFile() . " line " . $e->getLine() . "\n");
+                $this->logger->log($e->getTraceAsString(). "\n");
         }
-
-        $this->logger->log("\nStarted payments for business " . $business->getCode() . "\ntime = " . date_create()->format('Y-m-d H:i:s') . "\n\n");
-
-        $businessTripsPayments = $this->businessPaymentService->getPendingBusinessTripPayments($business);
-        $this->logger->log('Trips found: ' . count($businessTripsPayments) . "\n");
-
-        if (count($businessTripsPayments) > 0) {
-            $this->businessTripService->payTrips($business, $businessTripsPayments);
-        }
-
-        $businessExtraPayments = $this->businessPaymentService->getPendingBusinessExtraPayments($business);
-        $this->logger->log('Extras found: ' . count($businessExtraPayments) . "\n");
-
-        if (count($businessExtraPayments) > 0) {
-            $this->businessTripService->payExtras($business, $businessExtraPayments);
-        }
-
-        $business->paymentExecuted();
-        $this->businessService->persistBusiness($business);
-
-        $this->logger->log("Done payments for business " . $business->getCode() . "\ntime = " . date_create()->format('Y-m-d H:i:s') . "\n\n");
     }
 
-    private function initLogger()
-    {
+    private function initLogger() {
         $this->logger->setOutputEnvironment(Logger::OUTPUT_ON);
         $this->logger->setOutputType(Logger::TYPE_CONSOLE);
     }
 
-    private function itsTimeForBusinessToPay(Business $business)
-    {
+    private function itsTimeForBusinessToPay(Business $business) {
         $interval = $this->getIntervalFromString($business->getPaymentFrequence());
         if (!$interval instanceof DateInterval) {
             return false;
@@ -166,8 +166,7 @@ class ConsoleController extends AbstractActionController
         return (!$lastPayment instanceof \DateTime || $lastPayment->add($interval) < date_create());
     }
 
-    private function itsTimeForBusinessToBeInvoiced(Business $business)
-    {
+    private function itsTimeForBusinessToBeInvoiced(Business $business) {
         $interval = $this->getIntervalFromString($business->getInvoiceFrequence());
         if (!$interval instanceof DateInterval) {
             return false;
@@ -176,8 +175,7 @@ class ConsoleController extends AbstractActionController
         return (!$lastsInvoicement instanceof \DateTime || $lastsInvoicement->add($interval) < date_create());
     }
 
-    private function getIntervalFromString($frequence)
-    {
+    private function getIntervalFromString($frequence) {
         switch ($frequence) {
             case Business::FREQUENCE_WEEKLY:
                 return new DateInterval('P1W');
@@ -189,8 +187,7 @@ class ConsoleController extends AbstractActionController
         return null;
     }
 
-    private function generateBusinessInvoices(Business $business)
-    {
+    private function generateBusinessInvoices(Business $business) {
         $this->logger->log("\nStarted generating invoices for business " . $business->getCode() . "\ntime = " . date_create()->format('Y-m-d H:i:s') . "\n\n");
 
         $subscriptionPayments = $this->businessPaymentService->getSubscriptionPaymentToBeInvoiced($business);
@@ -222,4 +219,5 @@ class ConsoleController extends AbstractActionController
 
         $this->logger->log("Done generating invoices for business " . $business->getCode() . "\ntime = " . date_create()->format('Y-m-d H:i:s') . "\n\n");
     }
+
 }
