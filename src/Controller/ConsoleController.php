@@ -69,7 +69,7 @@ class ConsoleController extends AbstractActionController {
 
         $this->logger->log(date_create()->format('Y-m-d H:i:s').";INF;businessPayInvoiceAction;start\n");
 
-        $scriptId = $this->paymentScriptRunsService->scriptStarted();
+        // $scriptId = $this->paymentScriptRunsService->scriptStarted();  //TODO: temporary disabled
 
         $businesses = $this->businessService->getAllBusinessesWithCreditCard();
         $count = 0;
@@ -80,7 +80,7 @@ class ConsoleController extends AbstractActionController {
             }
         }
 
-        $this->paymentScriptRunsService->scriptEnded($scriptId);
+        // $this->paymentScriptRunsService->scriptEnded($scriptId);     //TODO: temporary disabled
 
         $this->logger->log(date_create()->format('H:i:s').";INF;businessPayInvoiceAction;end;payments;" . $count . "\n");
         $count = 0;
@@ -99,7 +99,7 @@ class ConsoleController extends AbstractActionController {
         $businessCode = $this->getRequest()->getParam('businessCode');
         $business = $this->businessService->getBusinessByCode($businessCode);
         if (!$business instanceof Business) {
-            $this->logger->log("Business code not found\n");
+            $this->logger->log(date_create()->format('H:i:s').";WAR;generateBusinessInvoicesAction;Business code not found\n");
             return;
         }
         $this->generateBusinessInvoices($business);
@@ -111,7 +111,7 @@ class ConsoleController extends AbstractActionController {
         $businessCode = $this->getRequest()->getParam('businessCode');
         $business = $this->businessService->getBusinessByCode($businessCode);
         if (!$business instanceof Business) {
-            $this->logger->log("Business code not found\n");
+            $this->logger->log(date_create()->format('H:i:s').";WAR;makeBusinessPayAction;Business code not found\n");
             return;
         }
         $this->makeBusinessPay($business);
@@ -145,7 +145,7 @@ class ConsoleController extends AbstractActionController {
 
             //$this->logger->log("Done payments for business " . $business->getCode() . "\ntime = " . date_create()->format('Y-m-d H:i:s') . "\n\n");
             } catch (\Exception $e) {
-                $this->logger->log( date_create()->format('H:i:s').";ERR;makeBusinessPay;general exception;tripPayment->getId;".$tripPayment->getId() . "\n");
+                $this->logger->log( date_create()->format('H:i:s').";ERR;makeBusinessPay;business->getCode;".$business->getCode()."\n");
                 $this->logger->log($e->getMessage() . " " . $e->getFile() . " line " . $e->getLine() . "\n");
                 $this->logger->log($e->getTraceAsString(). "\n");
         }
@@ -188,36 +188,36 @@ class ConsoleController extends AbstractActionController {
     }
 
     private function generateBusinessInvoices(Business $business) {
-        $this->logger->log("\nStarted generating invoices for business " . $business->getCode() . "\ntime = " . date_create()->format('Y-m-d H:i:s') . "\n\n");
+        $this->logger->log(date_create()->format('H:i:s').";INF;generateBusinessInvoices;start;business->getCode;" . $business->getCode() . '\n');
 
         $subscriptionPayments = $this->businessPaymentService->getSubscriptionPaymentToBeInvoiced($business);
         if (count($subscriptionPayments) > 0) {
-            $this->logger->log('Generating invoices for ' . count($subscriptionPayments) . " subscriptions payment\n");
+            $this->logger->log(date_create()->format('H:i:s').';INF;generateBusinessInvoices;subscriptionPayments;;' . count($subscriptionPayments) . '\n');
             $this->businessInvoiceService->createInvoiceForSubscription($business, $subscriptionPayments);
         }
 
         $tripPayments = $this->businessPaymentService->getTripPaymentsToBeInvoiced($business);
         if (count($tripPayments) > 0) {
-            $this->logger->log('Generating invoices for ' . count($tripPayments) . " trips payment\n");
+            $this->logger->log(date_create()->format('H:i:s').';INF;generateBusinessInvoices;tripPayments;;' . count($tripPayments) . '\n');
             $this->businessInvoiceService->createInvoiceForTrips($business, $tripPayments);
         }
 
         $extraPayements = $this->businessPaymentService->getExtraPaymentsToBeInvoiced($business);
         if (count($extraPayements) > 0) {
-            $this->logger->log('Generating invoices for ' . count($extraPayements) . " extra payment\n");
+            $this->logger->log(date_create()->format('H:i:s').';INF;generateBusinessInvoices;extraPayements;;' . count($extraPayements) . "\n");
             $this->businessInvoiceService->createInvoiceForExtras($business, $extraPayements);
         }
 
         $packagePayements = $this->businessPaymentService->getTimePackagePaymentsToBeInvoiced($business);
         if (count($packagePayements) > 0) {
-            $this->logger->log('Generating invoices for ' . count($packagePayements) . " time package payment\n");
+            $this->logger->log(date_create()->format('H:i:s').';INF;generateBusinessInvoices;packagePayements;;' . count($packagePayements) . '\n');
             $this->businessInvoiceService->createInvoiceForTimePackages($business, $packagePayements);
         }
 
         $business->invoiceExecuted();
         $this->businessService->persistBusiness($business);
 
-        $this->logger->log("Done generating invoices for business " . $business->getCode() . "\ntime = " . date_create()->format('Y-m-d H:i:s') . "\n\n");
+        $this->logger->log(date_create()->format('H:i:s').';INF;generateBusinessInvoices;end;$business->getCode;' . $business->getCode() . '\n');
     }
 
 }
