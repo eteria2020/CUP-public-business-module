@@ -74,10 +74,8 @@ class ConsoleController extends AbstractActionController {
         $businesses = $this->businessService->getAllBusinessesWithCreditCard();
         $count = 0;
         foreach ($businesses as $business) {
-            if ($this->itsTimeForBusinessToPay($business)) {
-                $this->makeBusinessPay($business);
-                $count++;
-            }
+            $this->makeBusinessPay($business);
+            $count++;
         }
 
         // $this->paymentScriptRunsService->scriptEnded($scriptId);     //TODO: temporary disabled
@@ -154,16 +152,6 @@ class ConsoleController extends AbstractActionController {
     private function initLogger() {
         $this->logger->setOutputEnvironment(Logger::OUTPUT_ON);
         $this->logger->setOutputType(Logger::TYPE_CONSOLE);
-    }
-
-    private function itsTimeForBusinessToPay(Business $business) {
-        $interval = $this->getIntervalFromString($business->getPaymentFrequence());
-        if (!$interval instanceof DateInterval) {
-            return false;
-        }
-
-        $lastPayment = $business->getLastPaymentExecution();
-        return (!$lastPayment instanceof \DateTime || $lastPayment->add($interval) < date_create());
     }
 
     private function itsTimeForBusinessToBeInvoiced(Business $business) {
