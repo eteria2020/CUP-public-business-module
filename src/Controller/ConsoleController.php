@@ -176,36 +176,34 @@ class ConsoleController extends AbstractActionController {
     }
 
     private function generateBusinessInvoices(Business $business) {
-        $this->logger->log(date_create()->format('H:i:s').";INF;generateBusinessInvoices;start;business->getCode;" . $business->getCode() . "\n");
 
         $subscriptionPayments = $this->businessPaymentService->getSubscriptionPaymentToBeInvoiced($business);
         if (count($subscriptionPayments) > 0) {
-            $this->logger->log(date_create()->format('H:i:s').";INF;generateBusinessInvoices;subscriptionPayments;;" . count($subscriptionPayments) . "\n");
+            $this->logger->log(date_create()->format('H:i:s').";INF;generateBusinessInvoices;subscriptionPayments;" . $business->getCode() . ";" . count($subscriptionPayments) . "\n");
             $this->businessInvoiceService->createInvoiceForSubscription($business, $subscriptionPayments);
         }
 
         $tripPayments = $this->businessPaymentService->getTripPaymentsToBeInvoiced($business);
         if (count($tripPayments) > 0) {
-            $this->logger->log(date_create()->format('H:i:s').";INF;generateBusinessInvoices;tripPayments;;" . count($tripPayments) . "\n");
+            $this->logger->log(date_create()->format('H:i:s').";INF;generateBusinessInvoices;tripPayments;" . $business->getCode() . ";" . count($tripPayments) . "\n");
             $this->businessInvoiceService->createInvoiceForTrips($business, $tripPayments);
         }
 
         $extraPayements = $this->businessPaymentService->getExtraPaymentsToBeInvoiced($business);
         if (count($extraPayements) > 0) {
-            $this->logger->log(date_create()->format('H:i:s').";INF;generateBusinessInvoices;extraPayements;;" . count($extraPayements) . "\n");
+            $this->logger->log(date_create()->format('H:i:s').";INF;generateBusinessInvoices;extraPayements;" . $business->getCode() . ";" . count($extraPayements) . "\n");
             $this->businessInvoiceService->createInvoiceForExtras($business, $extraPayements);
         }
 
         $packagePayements = $this->businessPaymentService->getTimePackagePaymentsToBeInvoiced($business);
         if (count($packagePayements) > 0) {
-            $this->logger->log(date_create()->format('H:i:s').";INF;generateBusinessInvoices;packagePayements;;" . count($packagePayements) . "\n");
+            $this->logger->log(date_create()->format('H:i:s').";INF;generateBusinessInvoices;packagePayements;" . $business->getCode() . ";" . count($packagePayements) . "\n");
             $this->businessInvoiceService->createInvoiceForTimePackages($business, $packagePayements);
         }
 
         $business->invoiceExecuted();
         $this->businessService->persistBusiness($business);
 
-        $this->logger->log(date_create()->format('H:i:s').";INF;generateBusinessInvoices;end;$business->getCode;" . $business->getCode() . "\n");
     }
 
 }
