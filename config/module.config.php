@@ -118,6 +118,17 @@ return [
                         ]
                     ]
                 ],
+                'business-credit-card-expired' => [
+                    'type' => 'simple',
+                    'options' => [
+                        'route' => 'business credit card expired',
+                        'defaults' => [
+                            '__NAMESPACE__' => 'CUPPublicBusinessModule\Controller',
+                            'controller' => 'Console',
+                            'action' => 'business-credit-card-expired'
+                        ]
+                    ]
+                ],
             ]
         ],
     ],
