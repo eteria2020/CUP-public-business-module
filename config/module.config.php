@@ -118,6 +118,17 @@ return [
                         ]
                     ]
                 ],
+                'business-credit-card-notify' => [
+                    'type' => 'simple',
+                    'options' => [
+                        'route' => 'business credit card notify',
+                        'defaults' => [
+                            '__NAMESPACE__' => 'CUPPublicBusinessModule\Controller',
+                            'controller' => 'Console',
+                            'action' => 'business-credit-card-notify'
+                        ]
+                    ]
+                ],
                 'business-credit-card-expired' => [
                     'type' => 'simple',
                     'options' => [
