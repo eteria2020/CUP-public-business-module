@@ -116,11 +116,11 @@ class ConsoleController extends AbstractActionController {
     }
 
      public function businessCreditCardNotifyAction() {
-        $this->logger->log(date_create()->format('H:i:s') . ";INF;businessCreditCardNotifyAction;start\n");
+        $this->logger->log(date_create()->format('H:i:s') . ";INF;businessCreditCardNotifyAction;start;".date_create()->format('Ym')."\n");
         $businesses = $this->businessService->getAllBusinessesWithCreditCardNotify(date_create()->format('Ym'));
         foreach ($businesses as $business) {
             $this->logger->log(date_create()->format('H:i:s') . ";INF;businessCreditCardNotifyAction;notify;" . $business->getCode() . "\n");
-            $this->businessService->notifyBusinessCreditCardNextExipiation($business);
+            //$this->businessService->notifyBusinessCreditCardNextExipiation($business);
         }
         $this->logger->log(date_create()->format('H:i:s') . ";INF;businessCreditCardNotifyAction;end\n");
      }
