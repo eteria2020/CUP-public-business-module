@@ -128,7 +128,7 @@ class ConsoleController extends AbstractActionController {
     /**
      * Disable the company (and the contract) that have credit card expired.
      */
-    public function businessCreditCardExpiredAction() {
+    public function businessCreditCardExpiryAction() {
         $this->logger->log(date_create()->format('H:i:s') . ";INF;businessCreditCardExpiredAction;start\n");
         $businesses = $this->businessService->getAllBusinessesWithCreditCardExpired(date_create()->format('Ym'));
 
