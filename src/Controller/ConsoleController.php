@@ -121,7 +121,7 @@ class ConsoleController extends AbstractActionController {
         foreach ($businessesCodeEmail as $codeEmail) {
             $this->logger->log(date_create()->format('H:i:s') . ";INF;businessCreditCardNotifyAction;notify;" . $codeEmail['code'] . ";" . $codeEmail['email'] . "\n");
             $business = $this->businessService->getBusinessByCode($codeEmail['code']);
-            //$this->businessService->notifyBusinessCreditCardNextExipiation($business);
+            $this->businessService->notifyBusinessCreditCardNextExipiation($business);
         }
         $this->logger->log(date_create()->format('H:i:s') . ";INF;businessCreditCardNotifyAction;end\n");
     }
@@ -136,7 +136,7 @@ class ConsoleController extends AbstractActionController {
         foreach ($businessesCodeEmail as $codeEmail) {
             $this->logger->log(date_create()->format('H:i:s') . ";INF;businessCreditCardExpiryAction;disabled;" . $codeEmail['code'] . ";" . $codeEmail['email'] . "\n");
             $business = $this->businessService->getBusinessByCode($codeEmail['code']);
-            //$this->businessService->disableBusinessCreditCardExired($business);
+            $this->businessService->disableBusinessCreditCardExired($business);
         }
         $this->logger->log(date_create()->format('H:i:s') . ";INF;businessCreditCardExpiryAction;end\n");
     }
