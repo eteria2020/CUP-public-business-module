@@ -115,29 +115,30 @@ class ConsoleController extends AbstractActionController {
         $this->makeBusinessPay($business);
     }
 
-     public function businessCreditCardNotifyAction() {
-        $this->logger->log(date_create()->format('H:i:s') . ";INF;businessCreditCardNotifyAction;start;".date_create()->format('Ym')."\n");
+    public function businessCreditCardNotifyAction() {
+        $this->logger->log(date_create()->format('H:i:s') . ";INF;businessCreditCardNotifyAction;start;" . date_create()->format('Ym') . "\n");
         $businessesCodeEmail = $this->businessService->getAllBusinessesWithCreditCardNotify(date_create()->format('Ym'));
         foreach ($businessesCodeEmail as $codeEmail) {
-            $this->logger->log(date_create()->format('H:i:s') . ";INF;businessCreditCardNotifyAction;notify;" . $codeEmail['code'] .";" .$codeEmail['email'] . "\n");
+            $this->logger->log(date_create()->format('H:i:s') . ";INF;businessCreditCardNotifyAction;notify;" . $codeEmail['code'] . ";" . $codeEmail['email'] . "\n");
             $business = $this->businessService->getBusinessByCode($codeEmail['code']);
             //$this->businessService->notifyBusinessCreditCardNextExipiation($business);
         }
         $this->logger->log(date_create()->format('H:i:s') . ";INF;businessCreditCardNotifyAction;end\n");
-     }
+    }
 
     /**
      * Disable the company (and the contract) that have credit card expired.
      */
     public function businessCreditCardExpiryAction() {
-        $this->logger->log(date_create()->format('H:i:s') . ";INF;businessCreditCardExpiredAction;start\n");
-        $businesses = $this->businessService->getAllBusinessesWithCreditCardExpired(date_create()->format('Ym'));
+        $this->logger->log(date_create()->format('H:i:s') . ";INF;businessCreditCardExpiryAction;start;" . date_create()->format('Ym') . "\n");
+        $businessesCodeEmail = $this->businessService->getAllBusinessesWithCreditCardExpired(date_create()->format('Ym'));
 
-        foreach ($businesses as $business) {
-            $this->logger->log(date_create()->format('H:i:s') . ";INF;businessCreditCardExpiredAction;disabled;" . $business->getCode() . "\n");
-            $this->businessService->disableBusinessCreditCardExired($business);
+        foreach ($businessesCodeEmail as $codeEmail) {
+            $this->logger->log(date_create()->format('H:i:s') . ";INF;businessCreditCardExpiryAction;disabled;" . $codeEmail['code'] . ";" . $codeEmail['email'] . "\n");
+            $business = $this->businessService->getBusinessByCode($codeEmail['code']);
+            //$this->businessService->disableBusinessCreditCardExired($business);
         }
-        $this->logger->log(date_create()->format('H:i:s') . ";INF;businessCreditCardExpiredAction;end\n");
+        $this->logger->log(date_create()->format('H:i:s') . ";INF;businessCreditCardExpiryAction;end\n");
     }
 
     private function makeBusinessPay(Business $business) {
