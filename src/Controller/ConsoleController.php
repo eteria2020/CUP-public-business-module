@@ -156,13 +156,13 @@ class ConsoleController extends AbstractActionController {
                 $this->businessTripService->payTrips($business, $businessTripsPayments);
             }
 
-            $businessExtraPayments = $this->businessPaymentService->getPendingBusinessExtraPayments($business);
+            $businessExtraPayments = $this->businessPaymentService->getPendingBusinessExtraPaymentsNoCreditCardChange($business);
 
             if (count($businessExtraPayments) > 0) {
                 $this->businessTripService->payExtras($business, $businessExtraPayments);
             }
 
-            $this->logger->log(date_create()->format('H:i:s') . ";INF;makeBusinessPay;" . $business->getCode() . ";trips;" . count($businessTripsPayments) . ";extra" . count($businessExtraPayments) . "\n");
+            $this->logger->log(date_create()->format('H:i:s') . ";INF;makeBusinessPay;" . $business->getCode() . ";trips;" . count($businessTripsPayments) . ";extra;" . count($businessExtraPayments) . "\n");
 
             $business->paymentExecuted();
             $this->businessService->persistBusiness($business);
