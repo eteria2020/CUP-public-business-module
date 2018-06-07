@@ -288,7 +288,7 @@ function addRow(
     if (latEndPrintable != 'n.d.' && lonEndPrintable != 'n.d.') {
         $endAddressCol.html($endAddressCol.html() + '<a href="#">' + addressEnd + '</a>');
     } else {
-        $endAddressCol.html($endAddressCol.html() + '' + addressEnd );
+        $endAddressCol.html($endAddressCol.html() + '' + addressEnd);
     }
     $endAddressCol.click(function () {
         loadMapPopup(latEnd, lonEnd);
