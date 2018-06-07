@@ -111,7 +111,9 @@ function refreshTable(period)
                     trip['latitudeEnd'],
                     trip['longitudeEnd'],
                     tripBonus,
-                    tripFree
+                    tripFree,
+                    trip['addressBeginning'],
+                    trip['addressEnd']
                     );
 
             // after last line is rendered...
@@ -158,7 +160,9 @@ function addRow(
         latEnd,
         lonEnd,
         bonusMinutes,
-        freeMinutes
+        freeMinutes,
+        addressBeginning,
+        addressEnd
         ) {
 
     var latStartPrintable = 'n.d.';
@@ -263,7 +267,7 @@ function addRow(
     $startAddressSpan.html('Partenza: ');
     $startAddressSpan.addClass(hiddenRowClass);
 
-    $startAddressCol.html($startAddressCol.html() + '<a href="#">Lat: ' + latStartPrintable + ' - Lon: ' + lonStartPrintable + '</a>');
+    $startAddressCol.html($startAddressCol.html() + '<a href="#">' + addressBeginning + '</a>');
     $startAddressCol.click(function () {
         loadMapPopup(latStart, lonStart);
         return false;
@@ -282,9 +286,9 @@ function addRow(
     $endAddressSpan.addClass(hiddenRowClass);
 
     if (latEndPrintable != 'n.d.' && lonEndPrintable != 'n.d.') {
-        $endAddressCol.html($endAddressCol.html() + '<a href="#">Lat: ' + latEndPrintable + ' - Lon: ' + lonEndPrintable + '</a>');
+        $endAddressCol.html($endAddressCol.html() + '<a href="#">' + addressEnd + '</a>');
     } else {
-        $endAddressCol.html($endAddressCol.html() + 'Lat: ' + latEndPrintable + ' - Lon: ' + lonEndPrintable);
+        $endAddressCol.html($endAddressCol.html() + '' + addressEnd);
     }
     $endAddressCol.click(function () {
         loadMapPopup(latEnd, lonEnd);
