@@ -42,7 +42,7 @@ function refreshTable(period)
 
             // show GRATIS for trips lower than one minute
             var tripMinutes = diffMinutes;
-            var parkingMinutes = Math.ceil(trip['parkSeconds'] / 60);
+            var parkingMinutes = Math.round(trip['parkSeconds'] / 60);
             var totalAmount = 'GRATIS';
             var totalAmountValue = 0;
             var mustPay = 'GRATIS';
