@@ -37,6 +37,7 @@ function refreshTable(period)
             var tripPayment = trip['tripPayments'];
             var tripBonuses = trip['tripBonuses'];
             var tripFreeFares = trip['tripFreeFares'];
+            var plate = trip['plate'];
 
             var diffMinutes = trip['duration'];    //minutes
 
@@ -113,7 +114,8 @@ function refreshTable(period)
                     tripBonus,
                     tripFree,
                     trip['addressBeginning'],
-                    trip['addressEnd']
+                    trip['addressEnd'],
+                    plate
                     );
 
             // after last line is rendered...
@@ -137,7 +139,7 @@ var groupClass = 'block-data-table-row-group';
 var clearfixClass = 'clearfix';
 var datainfoClass = 'data-info';
 var columnClass1 = 'block-data-table-td';
-var columnClass2 = 'cw-1-7';
+var columnClass2 = 'cw-1-8';
 //var columnClass3 = 'table-row-fix';
 var columnClass4 = 'cw-1-4';
 var columnClass5 = 'cw-1-2';
@@ -162,7 +164,8 @@ function addRow(
         bonusMinutes,
         freeMinutes,
         addressBeginning,
-        addressEnd
+        addressEnd,
+        plate
         ) {
 
     var latStartPrintable = 'n.d.';
@@ -194,6 +197,13 @@ function addRow(
     $row.addClass('block-data-table-row');
     $row.addClass(clearfixClass);
     $row.addClass((odd) ? 'odd' : 'even');
+    
+    // create the plate column
+    var $plate = $('<div>')
+            .appendTo($row);
+    $plate.html(plate);
+    $plate.addClass(columnClass1);
+    $plate.addClass(columnClass2);
 
 // create the date column
     var $tripType = $('<div>')
