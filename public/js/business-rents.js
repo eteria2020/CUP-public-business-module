@@ -387,8 +387,15 @@ function addFinalRow(
     $tripMinutesCol.html('');
     $tripMinutesCol.addClass(columnClass1);
     $tripMinutesCol.addClass(columnClass2);
-
+    
     // create fifth column
+    var $tripMinutesCol = $('<div>')
+            .appendTo($row);
+    $tripMinutesCol.html('');
+    $tripMinutesCol.addClass(columnClass1);
+    $tripMinutesCol.addClass(columnClass2);
+
+    // create sixth column
     var $parkingMinutesCol = $('<div>')
             .appendTo($row);
     $parkingMinutesCol.html('<strong>Totali periodo</strong>');
@@ -430,6 +437,7 @@ function loadMapPopup(lat, lng)
             lat + ',' + lng +
             '&zoom=16&sensor=false&size=800x600&markers=color:green%7C' +
             lat + ',' + lng +
+            '&key=AIzaSyAjv0Ry_0P18id6pWKwNn0IptB8NvZGfxY' +
             '" class="map-popup-img">');
     $mapPopup.show();
 }
