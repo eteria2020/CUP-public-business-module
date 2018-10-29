@@ -429,16 +429,23 @@ function formatCurrency(value) {
     return accounting.formatMoney(value, "€ ", 2, ".", ",");
 }
 
-function loadMapPopup(lat, lng)
-{
-    $mapPopup.html(
+function loadMapPopup(lat, lng){
+    $.ajax({
+        type: "POST",
+        url: "/google-maps-call",
+        data: {'lon': lng, 'lat': lat},
+        success: function (data){
+            $mapPopup.html(
             '<img id="map-popup-img" src="' +
-            'https://www.google.it/maps/api/staticmap?center=' +
-            lat + ',' + lng +
-            '&zoom=16&sensor=false&size=800x600&markers=color:green%7C' +
-            lat + ',' + lng +
-            '&key=AIzaSyAjv0Ry_0P18id6pWKwNn0IptB8NvZGfxY' +
+            data['src'] +
             '" class="map-popup-img">');
+        },
+        error: function(){
+            $mapPopup.html(
+            '<img id="map-popup-img" src="" class="map-popup-img">');
+        }
+    });
+   
     $mapPopup.show();
 }
 
