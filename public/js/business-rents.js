@@ -429,8 +429,7 @@ function formatCurrency(value) {
     return accounting.formatMoney(value, "€ ", 2, ".", ",");
 }
 
-function loadMapPopup(lat, lng)
-{
+function loadMapPopup(lat, lng){
     $.ajax({
         type: "POST",
         url: "/google-maps-call",
