@@ -434,7 +434,7 @@ function loadMapPopup(lat, lng){
         type: "POST",
         url: "/google-maps-call",
         data: {'lon': lng, 'lat': lat},
-        success: function (data) {
+        success: function (data){
             $mapPopup.html(
             '<img id="map-popup-img" src="' +
             data['src'] +
