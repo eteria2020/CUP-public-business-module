@@ -40,7 +40,9 @@
                     <div class="invoices-filter">
 
                         <!-- Header -->
-                        <p class="invoices-filter-title">Periodo</p>
+                        <p class="invoices-filter-title">
+                            <?= $this->translate("Periodo") ?>
+                        </p>
 
                         <!-- Select box -->
                         <select id="rents-filter-select" class="invoices-filter-select">
@@ -65,7 +67,9 @@
                     <!-- filter -->
 
                     <div class="rents-message">
-                        <p>Con un semplice mouse-over per ogni singola corsa puoi vedere l'indirizzo di partenza e d&#39;arrivo, il consumo di minuti bonus e le gratuit&agrave; qualora ti siano state riconosciute. In fondo alla tabella trovi il totale degli addebiti del mese applicando la tua tariffa personale.</p>
+                        <p>
+                            <?= $this->translate("Con un semplice mouse-over per ogni singola corsa puoi vedere l'indirizzo di partenza e d&#39;arrivo, il consumo di minuti bonus e le gratuit&agrave; qualora ti siano state riconosciute. In fondo alla tabella trovi il totale degli addebiti del mese applicando la tua tariffa personale.") ?>
+                        </p>
                     </div>
 
                     <!-- Invoices table -->
@@ -88,7 +92,9 @@
                     <!-- invoices table -->
 
                     <div style="margin-top: 10px">
-                        <p style="color: red"><strong>Attenzione</strong>: l'addebito delle corse avviene di regola il giorno dopo. Se ci sono corse da saldare non effettuate nella giornata di oggi vuol dire che ci sono stati problemi di addebito sulla tua carta di credito e che il tuo account è temporaneamente sospeso. Contatta il Customer Service di SHARE'NGO per la riattivazione.</p>
+                        <p style="color: red">
+                            <strong><?= $this->translate("Attenzione") ?></strong>:
+                            <?= $this->translate("l'addebito delle corse avviene di regola il giorno dopo. Se ci sono corse da saldare non effettuate nella giornata di oggi vuol dire che ci sono stati problemi di addebito sulla tua carta di credito e che il tuo account è temporaneamente sospeso. Contatta il Customer Service di SHARE'NGO per la riattivazione.") ?></p>
                     </div>
 
                     <?php
@@ -96,7 +102,9 @@
                         } else {
                     ?>
 
-                    <h2>Nessuna corsa effettuata finora</h2>
+                    <h2>
+                        <?= $this->translate("Nessuna corsa effettuata finora") ?>
+                    </h2>
 
                     <?php
                         // close no invoices if
