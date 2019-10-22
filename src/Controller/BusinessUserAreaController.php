@@ -85,11 +85,11 @@ class BusinessUserAreaController extends AbstractActionController
         $linkHowWork = 'http://site.sharengo.it/come-funziona/';
 
         switch ($this->serverInstance["id"]) {
-            case 'nl-NL':
+            case 'nl_NL':
                 $email = 'support@sharengo.nl';
                 $linkHowWork = 'https://site.sharengo.nl/hoe-werkt-het/';
                 break;
-            case 'sk-SK':
+            case 'sk_SK':
                 $email = 'zakaznickyservis@sharengo.sk';
                 $linkHowWork = 'https://site.sharengo.sk/ako-funguje-sharengo/';
                 break;
