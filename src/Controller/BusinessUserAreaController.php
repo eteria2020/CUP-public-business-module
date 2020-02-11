@@ -112,6 +112,7 @@ class BusinessUserAreaController extends AbstractActionController
 
         return new ViewModel(
             [
+                'serverInstance' => $this->serverInstance,
                 'email' => $email,
                 'linkHowWork' => $linkHowWork,
                 'businesses' => $businesses,

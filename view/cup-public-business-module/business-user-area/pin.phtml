@@ -39,28 +39,32 @@
 
                         </div>
                         <?php if (!$this->mobile){ ?>
-                        <div class="pin-info" style="text-align: center; font-size: 20px; line-height: 2.022287066089143; font-weight: 500;">
-                            <a href="<?=$this->linkHowWork ?>" style="color: #43a34c;">
-                                <i class="fa fa-question-circle"></i>
-                                <span style="text-decoration: underline; text-transform: uppercase;"> <?= $this->translate('Guarda come si usa'); ?></span>
-                            </a>
-                        </div>
-                        <?php } ?>
-                        <div style="min-width: 350px;  min-height: 200px; overflow:hidden;">
-                            <div style="padding-bottom: 30px; padding-top: 20px;  text-align:center">
-                                <?= $this->translate('Vuoi anche una CARD APRIPORTA associata al tuo account?'); ?><br />
-                                <span style="color: #ff0000"><?= $this->translate('CLICCA SULL’IMMAGINE DELLA CARTA'); ?></span> <?= $this->translate('per inoltrare la tua richiesta'); ?>.
-                                <br><br>
-                                <a href="mailto:<?=$this->email ?>?subject=<?= $this->translate("RICHIESTA DI CARD SHARE&#39;NGO"); ?>">
-                                        <img src="/images/carta_web.png">
+                            <div class="pin-info" style="text-align: center; font-size: 20px; line-height: 2.022287066089143; font-weight: 500;">
+                                <a href="<?=$this->linkHowWork ?>" style="color: #43a34c;">
+                                    <i class="fa fa-question-circle"></i>
+                                    <span style="text-decoration: underline; text-transform: uppercase;"> <?= $this->translate('Guarda come si usa'); ?></span>
                                 </a>
                             </div>
-                        </div>
-                        <div style="min-width: 350px;  min-height: 200px; overflow:hidden;">
-                            <div style="margin-top: 10px; max-width: 350px; margin: auto; text-align: center;">
-                                <?= $this->translate("Ti arriver&agrave; su richiesta gratuitamente a casa, oppure puoi anche ritirarla presso i nostri uffici"); ?>.
+                        <?php } ?>
+
+                        <?php if ($this->serverInstance['id']!='sk_SK'){ ?>
+                            <div style="min-width: 350px;  min-height: 200px; overflow:hidden;">
+                                <div style="padding-bottom: 30px; padding-top: 20px;  text-align:center">
+                                    <?= $this->translate('Vuoi anche una CARD APRIPORTA associata al tuo account?'); ?><br />
+                                    <span style="color: #ff0000"><?= $this->translate('CLICCA SULL’IMMAGINE DELLA CARTA'); ?></span> <?= $this->translate('per inoltrare la tua richiesta'); ?>.
+                                    <br><br>
+                                    <a href="mailto:<?=$this->email ?>?subject=<?= $this->translate("RICHIESTA DI CARD SHARE&#39;NGO"); ?>">
+                                        <img src="/images/carta_web.png">
+                                    </a>
+                                </div>
                             </div>
-                        </div>
+                            <div style="min-width: 350px;  min-height: 200px; overflow:hidden;">
+                                <div style="margin-top: 10px; max-width: 350px; margin: auto; text-align: center;">
+                                    <?= $this->translate("Ti arriver&agrave; su richiesta gratuitamente a casa, oppure puoi anche ritirarla presso i nostri uffici"); ?>.
+                                </div>
+                            </div>
+                        <?php } ?>
+
                     </div>
                 </div>
                 <!-- module-sharing-resmume -->
