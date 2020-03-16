@@ -66,17 +66,19 @@
                     </div>
                     <!-- filter -->
 
-                    <div class="rents-message">
-                        <p>
+                    <div class="rents-message"  style="width:100%" >
+                        <p style="text-align: justify">
                             <?= $this->translate("Con un semplice mouse-over per ogni singola corsa puoi vedere l'indirizzo di partenza e d&#39;arrivo, il consumo di minuti bonus e le gratuit&agrave; qualora ti siano state riconosciute. In fondo alla tabella trovi il totale degli addebiti del mese applicando la tua tariffa personale.") ?>
                         </p>
                     </div>
+
+
 
                     <!-- Invoices table -->
                     <div id="rents-table-body" class="block-data-table clearboth clearfix margin-top-custom">
 
                         <!-- Invoices table headers -->
-                        <div class="block-data-table-row clearfix">
+                        <div class="block-data-table-row clearfix text-align-center">
                             <div class="block-data-table-th cw-1-8"><?= $this->translate("Targa"); ?></div>
                             <div class="block-data-table-th cw-1-8"><?= $this->translate("Tipologia"); ?></div>
                             <div class="block-data-table-th cw-1-8"><?= $this->translate("Inizio"); ?></div>
@@ -92,7 +94,7 @@
                     <!-- invoices table -->
 
                     <div style="margin-top: 10px">
-                        <p style="color: red">
+                        <p style="color: red; text-align: justify">
                             <strong><?= $this->translate("Attenzione") ?></strong>:
                             <?= $this->translate("l'addebito delle corse avviene di regola il giorno dopo. Se ci sono corse da saldare non effettuate nella giornata di oggi vuol dire che ci sono stati problemi di addebito sulla tua carta di credito e che il tuo account è temporaneamente sospeso. Contatta il Customer Service di SHARE'NGO per la riattivazione.") ?></p>
                     </div>

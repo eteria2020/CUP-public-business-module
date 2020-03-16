@@ -44,23 +44,23 @@ function refreshTable(period)
             // show GRATIS for trips lower than one minute
             var tripMinutes = diffMinutes;
             var parkingMinutes = Math.round(trip['parkSeconds'] / 60);
-            var totalAmount = 'GRATIS';
+            var totalAmount = translate('Gratis').toUpperCase();
             var totalAmountValue = 0;
-            var mustPay = 'GRATIS';
+            var mustPay =  translate('Gratis').toUpperCase();
             var mustPayValue = 0;
-            var pinType = 'Privata';
+            var pinType = translate('Privata');
 
             var pinTypeValue = trip['pinType'];
             if (pinTypeValue === 'company') {
-                pinType = 'Aziendale';
+                pinType = translate('Aziendale');
                 totalAmount = '-';
                 mustPay = '-';
             }
 
             // show GRATIS for not accountable trips
             if (!trip['isAccountable']) {
-                totalAmount = 'GRATIS';
-                mustPay = 'GRATIS';
+                totalAmount = translate('Gratis').toUpperCase();
+                mustPay = translate('Gratis').toUpperCase();
             }
 
             if (typeof tripPayment !== "undefined") {
@@ -274,7 +274,7 @@ function addRow(
 
     var $startAddressSpan = $('<span>')
             .appendTo($startAddressCol);
-    $startAddressSpan.html('Partenza: ');
+    $startAddressSpan.html(translate('Partenza') + ': ');
     $startAddressSpan.addClass(hiddenRowClass);
 
     $startAddressCol.html($startAddressCol.html() + '<a href="#">' + addressBeginning + '</a>');
@@ -292,7 +292,7 @@ function addRow(
 
     var $endAddressSpan = $('<span>')
             .appendTo($endAddressCol);
-    $endAddressSpan.html('Destinazione: ');
+    $endAddressSpan.html(translate('Destinazione') + ': ');
     $endAddressSpan.addClass(hiddenRowClass);
 
     if (latEndPrintable != 'n.d.' && lonEndPrintable != 'n.d.') {
@@ -323,7 +323,7 @@ function addRow(
 
         var $bonusMinutesSpan = $('<span>')
                 .appendTo($bonusMinutesCol);
-        $bonusMinutesSpan.html('Minuti bonus consumati: ' + bonusMinutes);
+        $bonusMinutesSpan.html(translate('Minuti bonus consumati') + ': ' + bonusMinutes);
         $bonusMinutesSpan.addClass(hiddenRowClass);
 
         // create the end address column
@@ -335,7 +335,7 @@ function addRow(
 
         var $freeMinutesSpan = $('<span>')
                 .appendTo($freeMinutesCol);
-        $freeMinutesSpan.html('Minuti gratuiti fruiti: ' + freeMinutes);
+        $freeMinutesSpan.html(translate('Minuti gratuiti fruiti') + ': ' + freeMinutes);
         $freeMinutesSpan.addClass(hiddenRowClass);
 
     }
@@ -398,7 +398,7 @@ function addFinalRow(
     // create sixth column
     var $parkingMinutesCol = $('<div>')
             .appendTo($row);
-    $parkingMinutesCol.html('<strong>Totali periodo</strong>');
+    $parkingMinutesCol.html('<strong>' + translate('period_total') + '</strong>');
     $parkingMinutesCol.addClass(columnClass1);
     $parkingMinutesCol.addClass(columnClass2);
 
